@@ -107,46 +107,24 @@ function Crest() {
 function FloatingDashboard() {
   return (
     <div className="relative mx-auto w-full max-w-md px-4 sm:px-0">
-      <div className="card-dark animate-fade-up p-5">
-        <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-paper-50/70">
-          <span>Today · Downtown Cuts</span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-500/15 px-2 py-0.5 text-brand-200">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-400" />
-            Live
-          </span>
+      <figure className="relative animate-fade-up overflow-hidden rounded-xl border border-paper-50/15 shadow-soft">
+        {/* Replace with /public/hero.jpg or your own URL when ready. */}
+        <img
+          src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=900&q=80"
+          alt="A master barber at work in a classic shop"
+          className="h-80 w-full object-cover sm:h-96"
+          loading="eager"
+        />
+        {/* Brass gradient + grain so the image fuses into the ink hero */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/55 via-ink-900/10 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 p-4">
+          <div className="rule-gold rule-dark">
+            <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-brass-400">
+              Downtown Cuts · Est. 2026
+            </span>
+          </div>
         </div>
-        <p className="mt-3 display text-3xl text-paper-50">
-          $1,284
-          <span className="ml-1 text-sm font-medium text-paper-50/60">earned today</span>
-        </p>
-        <div className="mt-4 flex gap-2 text-center text-[11px]">
-          {[
-            { label: "Marco · Seat 1", v: "$412", c: "bg-emerald-400/20" },
-            { label: "Luca · Seat 2", v: "$398", c: "bg-amber-400/20" },
-            { label: "Dre · Seat 3", v: "$474", c: "bg-brand-500/20" },
-          ].map((s) => (
-            <div key={s.label} className={`${s.c} flex-1 rounded-md p-2.5`}>
-              <p className="truncate text-paper-50/80">{s.label}</p>
-              <p className="display text-base text-paper-50">{s.v}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 flex flex-col gap-2">
-          {[
-            { t: "10:30", c: "Jordan A.", s: "Skin fade", b: "Marco" },
-            { t: "11:00", c: "Sam P.", s: "Beard line-up", b: "Luca" },
-            { t: "11:30", c: "Riley T.", s: "Kid's cut", b: "Dre" },
-          ].map((b) => (
-            <div key={b.t} className="flex items-center gap-3 rounded-md bg-paper-50/5 px-3 py-2 text-xs">
-              <span className="font-bold text-paper-50">{b.t}</span>
-              <span className="flex-1 truncate text-paper-50/85">
-                {b.c} <span className="text-paper-50/40">·</span> {b.s}
-              </span>
-              <span className="text-paper-50/60">{b.b}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      </figure>
 
       <div className="absolute right-2 -top-3 hidden rotate-6 sm:block">
         <div className="card w-40 p-3 text-xs">

@@ -81,35 +81,40 @@ export default function CustomCursor() {
     };
   }, []);
 
+  // mix-blend-mode: difference makes the white cursor render as the inverse
+  // of whatever's behind it: black on the cream paper, white on the ink hero,
+  // cyan on the brand red CTA. Always visible.
+  const blendStyle = { mixBlendMode: "difference", willChange: "transform" };
+
   return (
     <>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[100] h-1.5 w-1.5 rounded-full bg-ink-900 transition-opacity duration-150"
-        style={{ willChange: "transform" }}
+        className="pointer-events-none fixed left-0 top-0 z-[100] h-1.5 w-1.5 rounded-full bg-white transition-opacity duration-150"
+        style={blendStyle}
         aria-hidden="true"
       />
       <div
         ref={ringRef}
         className="pointer-events-none fixed left-0 top-0 z-[100] h-11 w-11 transition-opacity duration-150"
-        style={{ willChange: "transform" }}
+        style={blendStyle}
         aria-hidden="true"
       >
         <div
           ref={ringInnerRef}
           className="cursor-ring-inner h-full w-full origin-center transition-transform duration-200"
         >
-          <svg viewBox="0 0 44 44" className="animate-orbit h-full w-full text-ink-900">
+          <svg viewBox="0 0 44 44" className="animate-orbit h-full w-full text-white">
             <circle
               cx="22"
               cy="22"
               r="18"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1"
-              opacity="0.55"
+              strokeWidth="1.2"
+              opacity="0.9"
             />
-            <circle cx="22" cy="4" r="2.2" fill="currentColor" />
+            <circle cx="22" cy="4" r="2.4" fill="currentColor" />
           </svg>
         </div>
       </div>

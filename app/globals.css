@@ -179,14 +179,8 @@ header, main, footer { position: relative; z-index: 10; }
 }
 
 /* Subtle visual states the cursor adopts when hovering an interactive
-   element or while the mouse button is held down. */
-.cursor-ring-inner.cursor-on-target {
-  transform: scale(1.18);
-  color: #b91c1c;
-}
-.cursor-ring-inner.cursor-pressed {
-  transform: scale(0.78);
-}
-.cursor-ring-inner.cursor-on-target.cursor-pressed {
-  transform: scale(0.9);
-}
+   element or while the mouse button is held down. The colour is always
+   white because of mix-blend-mode: difference, so we only animate scale. */
+.cursor-ring-inner.cursor-on-target { transform: scale(1.22); }
+.cursor-ring-inner.cursor-pressed   { transform: scale(0.78); }
+.cursor-ring-inner.cursor-on-target.cursor-pressed { transform: scale(0.92); }
