@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Icon from "@/components/Icon";
 
@@ -9,6 +9,24 @@ export default function MyBookingsList({ bookings }) {
   const router = useRouter();
   const [busy, setBusy] = useState(null);
   const [rating, setRating] = useState({});
+
+  // Keep the list live: refresh whenever the tab regains focus and every 30s
+  // while it's open, so a booking marked done by the shop appears without a
+  // manual reload.
+  useEffect(() => {
+    const refresh = () => router.refresh();
+    const onVisible = () => {
+      if (document.visibilityState === "visible") refresh();
+    };
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", onVisible);
+    const id = setInterval(refresh, 30_000);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", onVisible);
+      clearInterval(id);
+    };
+  }, [router]);
 
   async function cancel(id) {
     if (!confirm("Cancel this booking?")) return;
