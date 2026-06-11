@@ -53,14 +53,16 @@ export default async function RootLayout({ children }) {
                       {home.label}
                     </Link>
                   )}
-                  <Link
-                    href="/logout"
-                    className="inline-flex items-center gap-1 text-xs text-ink-400 hover:text-ink-900"
-                    title="Sign out"
-                  >
-                    <Icon name="x" className="h-3.5 w-3.5" />
-                    Sign out
-                  </Link>
+                  <form action="/logout" method="post" className="contents">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-1 text-xs text-ink-400 hover:text-ink-900"
+                      title="Sign out"
+                    >
+                      <Icon name="x" className="h-3.5 w-3.5" />
+                      Sign out
+                    </button>
+                  </form>
                 </>
               )}
             </nav>

@@ -21,50 +21,86 @@ export default function Home() {
 
 function Hero() {
   return (
-    <section className="relative -mt-2 isolate overflow-hidden rounded-2xl bg-ink-gradient text-paper-50">
-      <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:36px_36px] opacity-25" />
-      <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-25 blur-3xl"
-        style={{ background: "radial-gradient(closest-side,#b91c1c,transparent 70%)" }} />
-      <div className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full opacity-20 blur-3xl"
-        style={{ background: "radial-gradient(closest-side,#cea24a,transparent 70%)" }} />
-      <div className="pointer-events-none absolute right-10 top-10 hidden h-44 w-2.5 rotate-12 rounded-full barber-pole shadow-soft lg:block" />
+    <section className="relative -mt-2 isolate overflow-hidden rounded-2xl bg-ink-gradient text-paper-50 shadow-soft">
+      <div className="pointer-events-none absolute inset-0 bg-damask-gold opacity-25" />
+      <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:42px_42px] opacity-10" />
+      <div
+        className="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full opacity-25 blur-3xl"
+        style={{ background: "radial-gradient(closest-side,#cea24a,transparent 70%)" }}
+      />
+      <div
+        className="pointer-events-none absolute -left-32 -bottom-32 h-[24rem] w-[24rem] rounded-full opacity-15 blur-3xl"
+        style={{ background: "radial-gradient(closest-side,#b91c1c,transparent 70%)" }}
+      />
+      <div className="pointer-events-none absolute right-10 top-10 hidden h-44 w-2 rotate-12 rounded-full barber-pole shadow-soft lg:block" />
 
-      <div className="relative flex w-full flex-col gap-10 px-6 py-14 sm:px-8 lg:flex-row lg:items-center lg:gap-10 lg:px-14 lg:py-20">
-        <div className="flex w-full flex-col justify-center gap-7 animate-fade-up lg:flex-1 lg:basis-0">
-          <span className="eyebrow text-brand-200">A premium CMS for barbers</span>
-          <h1 className="display text-5xl text-paper-50 sm:text-6xl xl:text-7xl">
-            The chair. <br />
-            The till. <br />
-            <span className="italic text-brand-400">The whole shop.</span>
-          </h1>
-          <p className="max-w-xl text-base text-paper-100/80 sm:text-lg">
-            Clipper is the all-in-one CMS for barber shop owners — manage shops, seats,
-            barbers and bookings in one place. Every barber gets their own login to see who's
-            sitting in their chair today.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/owner/signup" className="btn-primary px-5 py-3 text-base">
-              <Icon name="store" className="h-4 w-4" /> Open your shop
-            </Link>
-            <Link href="/shops" className="btn-outline px-5 py-3 text-base">
-              <Icon name="scissors" className="h-4 w-4" /> Find a barber
-            </Link>
+      <div className="relative px-6 py-12 sm:px-10 lg:px-14 lg:py-16">
+        <div className="rule-gold rule-dark">
+          <Crest />
+        </div>
+
+        <div className="mt-10 flex w-full flex-col gap-12 lg:flex-row lg:items-center lg:gap-14">
+          <div className="flex w-full flex-col gap-6 animate-fade-up lg:flex-1 lg:basis-0">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.42em] text-brass-400 sm:text-[11px]">
+              By Appointment <span className="mx-2 text-brass-400/50">·</span> Est. 2026
+            </p>
+            <h1 className="display text-5xl leading-[0.98] text-paper-50 sm:text-6xl xl:text-7xl">
+              The Chair. <br />
+              The Till. <br />
+              <span className="display-italic text-shimmer-gold">The Whole Shop.</span>
+            </h1>
+            <div className="rule-gold rule-dark max-w-sm">
+              <Icon name="scissors" className="h-4 w-4 text-brass-400" />
+            </div>
+            <p className="max-w-xl text-base text-paper-100/85 sm:text-lg">
+              Clipper is the all-in-one cabinet for barber shop owners — manage shops, seats,
+              barbers and bookings in one place. Every barber gets their own login to see who's
+              sitting in their chair today.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/owner/signup" className="btn-primary px-5 py-3 text-base">
+                <Icon name="store" className="h-4 w-4" /> Open your shop
+              </Link>
+              <Link href="/shops" className="btn-outline px-5 py-3 text-base">
+                <Icon name="scissors" className="h-4 w-4" /> Find a barber
+              </Link>
+            </div>
+            <div className="mt-1 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-paper-100/70">
+              <span className="inline-flex items-center gap-2">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                Free forever for small shops
+              </span>
+              <span className="text-paper-100/40">·</span>
+              <span>No card required</span>
+            </div>
           </div>
-          <div className="mt-1 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-paper-100/70">
-            <span className="inline-flex items-center gap-2">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Free forever for small shops
-            </span>
-            <span>No card required</span>
-            <span className="hidden sm:inline">Vercel-deployable in 3 minutes</span>
+
+          <div className="relative flex w-full items-center justify-center lg:flex-1 lg:basis-0">
+            <FloatingDashboard />
           </div>
         </div>
 
-        <div className="relative flex w-full items-center justify-center lg:flex-1 lg:basis-0">
-          <FloatingDashboard />
+        <div className="rule-gold rule-dark mt-12">
+          <Crest />
         </div>
       </div>
     </section>
+  );
+}
+
+function Crest() {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-brass-400">
+      <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor" aria-hidden="true">
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+      <svg viewBox="0 0 36 36" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+        <path d="M18 3 L20.2 14.4 L31 16 L20.2 17.6 L18 29 L15.8 17.6 L5 16 L15.8 14.4 Z" />
+      </svg>
+      <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor" aria-hidden="true">
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+    </span>
   );
 }
 
