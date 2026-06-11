@@ -9,12 +9,7 @@
 
 html, body {
   height: 100%;
-  width: 100%;
-  /* Prevent decorative absolutely-positioned elements from causing horizontal scroll. */
-  overflow-x: hidden;
 }
-html { overflow-x: hidden; }
-body { position: relative; }
 body {
   @apply bg-ink-50 text-ink-900 antialiased;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;

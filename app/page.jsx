@@ -1,8 +1,12 @@
 import Link from "next/link";
 
+// Tailwind helpers reused across the page.
+const THREE_COL = "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]";
+const FOUR_COL = "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/4)]";
+
 export default function Home() {
   return (
-    <div className="grid w-full max-w-full gap-20 min-w-0">
+    <div className="flex w-full max-w-full flex-col gap-20">
       <Hero />
       <SocialProof />
       <Features />
@@ -23,12 +27,14 @@ function Hero() {
         className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-30 blur-3xl"
         style={{ background: "radial-gradient(closest-side,#ef2b2b,transparent 70%)" }}
       />
-      <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full opacity-20 blur-3xl"
-        style={{ background: "radial-gradient(closest-side,#f5c662,transparent 70%)" }} />
+      <div
+        className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full opacity-20 blur-3xl"
+        style={{ background: "radial-gradient(closest-side,#f5c662,transparent 70%)" }}
+      />
       <div className="pointer-events-none absolute right-10 top-10 hidden h-40 w-3 rotate-12 rounded-full barber-pole shadow-glow lg:block" />
 
-      <div className="relative grid min-w-0 gap-10 px-6 py-14 sm:px-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-8 lg:px-14 lg:py-20">
-        <div className="grid min-w-0 content-center gap-6 animate-fade-up">
+      <div className="relative flex w-full flex-col gap-10 px-6 py-14 sm:px-8 lg:flex-row lg:items-center lg:gap-8 lg:px-14 lg:py-20">
+        <div className="flex w-full flex-col justify-center gap-6 animate-fade-up lg:flex-1 lg:basis-0">
           <span className="pill-brand w-fit border-brand-500/30 bg-brand-500/10 text-brand-100">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-400" /> New · multi-shop CMS
           </span>
@@ -51,7 +57,7 @@ function Hero() {
               ✂️ I just want a haircut
             </Link>
           </div>
-          <div className="mt-2 flex items-center gap-6 text-xs text-ink-100/70">
+          <div className="mt-2 flex flex-wrap items-center gap-6 text-xs text-ink-100/70">
             <span className="flex items-center gap-2">
               <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" /> Free forever for small shops
             </span>
@@ -59,7 +65,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative grid min-w-0 content-center">
+        <div className="relative flex w-full items-center justify-center lg:flex-1 lg:basis-0">
           <FloatingDashboard />
         </div>
       </div>
@@ -80,27 +86,30 @@ function FloatingDashboard() {
         <p className="mt-3 text-3xl font-extrabold">
           $1,284<span className="text-base font-medium text-white/60"> earned today</span>
         </p>
-        <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
+        <div className="mt-4 flex gap-2 text-center text-xs">
           {[
             { label: "Marco · Seat 1", v: "$412", c: "bg-emerald-400/20" },
             { label: "Luca · Seat 2", v: "$398", c: "bg-amber-400/20" },
             { label: "Dre · Seat 3", v: "$474", c: "bg-brand-500/20" },
           ].map((s) => (
-            <div key={s.label} className={`${s.c} rounded-lg p-2.5`}>
-              <p className="text-white/80">{s.label}</p>
+            <div key={s.label} className={`${s.c} flex-1 rounded-lg p-2.5`}>
+              <p className="truncate text-white/80">{s.label}</p>
               <p className="text-base font-bold">{s.v}</p>
             </div>
           ))}
         </div>
-        <div className="mt-4 grid gap-2">
+        <div className="mt-4 flex flex-col gap-2">
           {[
             { t: "10:30", c: "Jordan A.", s: "Skin fade", b: "Marco" },
             { t: "11:00", c: "Sam P.", s: "Beard line-up", b: "Luca" },
             { t: "11:30", c: "Riley T.", s: "Kid's cut", b: "Dre" },
           ].map((b) => (
-            <div key={b.t} className="flex items-center gap-3 rounded-lg bg-white/5 px-3 py-2 text-xs">
+            <div
+              key={b.t}
+              className="flex items-center gap-3 rounded-lg bg-white/5 px-3 py-2 text-xs"
+            >
               <span className="font-bold text-white">{b.t}</span>
-              <span className="flex-1 text-white/85">
+              <span className="flex-1 truncate text-white/85">
                 {b.c} <span className="text-white/50">·</span> {b.s}
               </span>
               <span className="text-white/60">{b.b}</span>
@@ -146,39 +155,15 @@ function SocialProof() {
 
 function Features() {
   const items = [
-    {
-      e: "🏪",
-      t: "Multi-shop CMS",
-      d: "Every shop has its own barbers, seats, hours and services. One owner, many locations.",
-    },
-    {
-      e: "🪑",
-      t: "Seat-level scheduling",
-      d: "Each barber sits at their chair. Bookings auto-route by seat — no double-booking, ever.",
-    },
-    {
-      e: "💰",
-      t: "End-of-day totals",
-      d: "Per-barber, per-shop revenue updates the moment the last appointment closes.",
-    },
-    {
-      e: "💈",
-      t: "Per-barber pricing",
-      d: "Senior barbers charge senior rates. Override the base price for any service.",
-    },
-    {
-      e: "🔐",
-      t: "Barber logins",
-      d: "Every barber gets their own profile. They see who's in their chair next, all day.",
-    },
-    {
-      e: "⭐",
-      t: "Customer ratings",
-      d: "Verified reviews unlock only after a real visit. Build a reputation that compounds.",
-    },
+    { e: "🏪", t: "Multi-shop CMS", d: "Every shop has its own barbers, seats, hours and services. One owner, many locations." },
+    { e: "🪑", t: "Seat-level scheduling", d: "Each barber sits at their chair. Bookings auto-route by seat — no double-booking, ever." },
+    { e: "💰", t: "End-of-day totals", d: "Per-barber, per-shop revenue updates the moment the last appointment closes." },
+    { e: "💈", t: "Per-barber pricing", d: "Senior barbers charge senior rates. Override the base price for any service." },
+    { e: "🔐", t: "Barber logins", d: "Every barber gets their own profile. They see who's in their chair next, all day." },
+    { e: "⭐", t: "Customer ratings", d: "Verified reviews unlock only after a real visit. Build a reputation that compounds." },
   ];
   return (
-    <section className="grid gap-8">
+    <section className="flex flex-col gap-8">
       <div className="text-center">
         <p className="text-xs font-semibold uppercase tracking-widest text-brand-500">
           Built for the chair, the till and the front desk
@@ -191,10 +176,10 @@ function Features() {
           looks good doing it.
         </p>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="flex flex-wrap gap-4">
         {items.map((it) => (
-          <div key={it.t} className="card card-hover group">
-            <div className="grid h-12 w-12 place-items-center rounded-xl bg-brand-50 text-2xl transition group-hover:scale-110">
+          <div key={it.t} className={`card card-hover group ${THREE_COL}`}>
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-2xl transition group-hover:scale-110">
               {it.e}
             </div>
             <h3 className="mt-3 font-bold text-ink-900">{it.t}</h3>
@@ -235,12 +220,12 @@ function RoleGrid() {
     },
   ];
   return (
-    <section className="grid gap-4 md:grid-cols-3">
+    <section className="flex flex-wrap gap-4">
       {roles.map((r) => (
         <Link
           key={r.href}
           href={r.href}
-          className={`group block rounded-2xl ${r.bg} p-7 shadow-soft transition hover:-translate-y-1`}
+          className={`group block rounded-2xl ${r.bg} p-7 shadow-soft transition hover:-translate-y-1 ${THREE_COL}`}
         >
           <p className={`text-xs font-bold tracking-widest ${r.dark ? "text-brand-500" : "text-white/70"}`}>
             {r.tag}
@@ -266,16 +251,16 @@ function HowItWorks() {
     { n: "04", t: "Customers book online", d: "Your shops show up on Clipper's marketplace. Booked slots flow straight to barbers." },
   ];
   return (
-    <section className="grid gap-8">
+    <section className="flex flex-col gap-8">
       <div className="text-center">
         <p className="text-xs font-semibold uppercase tracking-widest text-brand-500">How it works</p>
         <h2 className="mt-2 text-4xl font-extrabold tracking-tight">Open shop in under 10 minutes.</h2>
       </div>
-      <div className="relative grid gap-4 md:grid-cols-4">
-        <div className="absolute left-0 right-0 top-9 hidden h-px bg-gradient-to-r from-transparent via-ink-100 to-transparent md:block" />
-        {steps.map((s, i) => (
-          <div key={s.n} className="relative card card-hover">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-ink-gradient text-xs font-bold text-white">
+      <div className="relative flex flex-wrap gap-4">
+        <div className="absolute left-0 right-0 top-9 hidden h-px bg-gradient-to-r from-transparent via-ink-100 to-transparent lg:block" />
+        {steps.map((s) => (
+          <div key={s.n} className={`relative card card-hover ${FOUR_COL}`}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-ink-gradient text-xs font-bold text-white">
               {s.n}
             </div>
             <h3 className="mt-3 font-bold">{s.t}</h3>
@@ -316,17 +301,17 @@ function Pricing() {
     },
   ];
   return (
-    <section className="grid gap-8">
+    <section className="flex flex-col gap-8">
       <div className="text-center">
         <p className="text-xs font-semibold uppercase tracking-widest text-brand-500">Pricing</p>
         <h2 className="mt-2 text-4xl font-extrabold tracking-tight">Pay only when you grow.</h2>
         <p className="mt-2 text-ink-400">Start on Free. Upgrade the day you book your 100th customer.</p>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="flex flex-wrap gap-4">
         {tiers.map((t) => (
           <div
             key={t.name}
-            className={`relative grid gap-4 rounded-2xl p-7 shadow-soft transition hover:-translate-y-1
+            className={`relative flex flex-col gap-4 rounded-2xl p-7 shadow-soft transition hover:-translate-y-1 ${THREE_COL}
               ${t.featured ? "bg-ink-gradient text-white" : "card"}`}
           >
             {t.featured && (
@@ -344,7 +329,7 @@ function Pricing() {
               <span className="text-5xl font-extrabold">${t.price}</span>
               <span className={`${t.featured ? "text-white/70" : "text-ink-400"} mb-1.5 text-sm`}>/ month</span>
             </div>
-            <ul className="grid gap-2 text-sm">
+            <ul className="flex flex-col gap-2 text-sm">
               {t.perks.map((p) => (
                 <li key={p} className="flex items-start gap-2">
                   <span className={t.featured ? "text-brand-400" : "text-brand-500"}>✓</span>
@@ -367,34 +352,24 @@ function Pricing() {
 
 function Testimonials() {
   const quotes = [
-    {
-      q: "Set up two locations in one afternoon. My barbers love seeing their day-by-day take.",
-      a: "Marco Rossi",
-      r: "Owner · Downtown Cuts (3 shops)",
-    },
-    {
-      q: "First app that actually gets how seat assignments work. Customers walk in and I already know.",
-      a: "Dre Walker",
-      r: "Master barber · Seat 3",
-    },
-    {
-      q: "Booked solid for two weeks the day after we listed. The ratings page does real marketing.",
-      a: "Sam Patel",
-      r: "Owner · Sharp Cuts",
-    },
+    { q: "Set up two locations in one afternoon. My barbers love seeing their day-by-day take.", a: "Marco Rossi", r: "Owner · Downtown Cuts (3 shops)" },
+    { q: "First app that actually gets how seat assignments work. Customers walk in and I already know.", a: "Dre Walker", r: "Master barber · Seat 3" },
+    { q: "Booked solid for two weeks the day after we listed. The ratings page does real marketing.", a: "Sam Patel", r: "Owner · Sharp Cuts" },
   ];
   return (
-    <section className="grid gap-6">
+    <section className="flex flex-col gap-6">
       <h2 className="text-center text-3xl font-extrabold tracking-tight">
         From shops that swapped 5 apps for one.
       </h2>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="flex flex-wrap gap-4">
         {quotes.map((c) => (
-          <div key={c.a} className="card card-hover">
+          <div key={c.a} className={`card card-hover ${THREE_COL}`}>
             <p className="text-amber-400 text-sm">★★★★★</p>
             <p className="mt-2 text-sm text-ink-700">"{c.q}"</p>
             <div className="mt-4 flex items-center gap-3">
-              <div className="grid h-9 w-9 place-items-center rounded-full bg-brand-50 text-base">💈</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-base">
+                💈
+              </div>
               <div className="text-xs">
                 <p className="font-bold">{c.a}</p>
                 <p className="text-ink-400">{c.r}</p>
@@ -410,8 +385,8 @@ function Testimonials() {
 function CTA() {
   return (
     <section className="relative overflow-hidden rounded-3xl bg-brand-gradient px-8 py-16 text-center text-white">
-      <div className="absolute inset-0 bg-grid bg-[length:32px_32px] opacity-20" />
-      <div className="relative grid gap-5">
+      <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:32px_32px] opacity-20" />
+      <div className="relative flex flex-col items-center gap-5">
         <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl">
           Your chair. Your shop. Your software.
         </h2>
