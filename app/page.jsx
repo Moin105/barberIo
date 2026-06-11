@@ -1,14 +1,19 @@
 import Link from "next/link";
 import Icon from "@/components/Icon";
+import { listActivePromotions } from "@/lib/services/promotions";
+
+export const dynamic = "force-dynamic";
 
 const THREE_COL = "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]";
 const FOUR_COL = "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/4)]";
 
-export default function Home() {
+export default async function Home() {
+  const deals = await listActivePromotions(6);
   return (
     <div className="flex w-full flex-col gap-24">
       <Hero />
       <SocialProof />
+      <Deals deals={deals} />
       <Features />
       <RoleGrid />
       <HowItWorks />
@@ -16,6 +21,80 @@ export default function Home() {
       <Testimonials />
       <CTA />
     </div>
+  );
+}
+
+function Deals({ deals }) {
+  if (!deals || deals.length === 0) return null;
+  return (
+    <section className="flex flex-col gap-8">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <span className="eyebrow inline-flex items-center gap-2">
+            <Icon name="megaphone" className="h-3.5 w-3.5" />
+            Now on
+          </span>
+          <h2 className="display mt-2 text-4xl text-ink-900 sm:text-5xl">Today's deals.</h2>
+          <p className="text-sm text-ink-400">
+            Promotions running right now at shops on Clipper.
+          </p>
+        </div>
+        <Link href="/shops" className="btn-ghost">
+          Browse all shops <Icon name="arrow" className="h-4 w-4" />
+        </Link>
+      </div>
+      <div className="flex flex-wrap gap-4">
+        {deals.map((d) => (
+          <DealCard key={d.id} d={d} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function DealCard({ d }) {
+  const cta = d.cta_href ? (
+    <Link
+      href={d.cta_href}
+      className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:underline"
+    >
+      {d.cta_label || "See offer"} <Icon name="arrow" className="h-4 w-4" />
+    </Link>
+  ) : null;
+  return (
+    <article className="card card-hover relative flex w-full flex-col gap-3 overflow-hidden md:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]">
+      <span className="pointer-events-none absolute inset-y-0 left-0 w-1 barber-pole" />
+      <div className="flex items-start gap-3 pl-3">
+        {d.image_url ? (
+          <img
+            src={d.image_url}
+            alt=""
+            className="h-14 w-14 shrink-0 rounded-md object-cover"
+          />
+        ) : (
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-brand-50 text-brand-700">
+            <Icon name="tag" className="h-6 w-6" />
+          </span>
+        )}
+        <div className="min-w-0 flex-1">
+          <p className="display text-lg leading-snug text-ink-900">{d.title}</p>
+          <p className="mt-0.5 text-[11px] uppercase tracking-widest text-brand-600">
+            {d.business_name}
+          </p>
+        </div>
+      </div>
+      <p className="pl-3 text-sm text-ink-700">{d.body}</p>
+      {(cta || d.ends_at) && (
+        <div className="flex items-center justify-between pl-3 pt-1">
+          {cta}
+          {d.ends_at && (
+            <span className="text-[11px] uppercase tracking-widest text-ink-400">
+              Ends {new Date(d.ends_at).toLocaleDateString()}
+            </span>
+          )}
+        </div>
+      )}
+    </article>
   );
 }
 

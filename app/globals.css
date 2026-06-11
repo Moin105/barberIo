@@ -193,6 +193,17 @@ header, main, footer { position: relative; z-index: 10; }
 }
 .animate-orbit { animation: orbit 5s linear infinite; transform-origin: 50% 50%; }
 
+/* Small wiggle the notification bell makes when a new notification arrives. */
+@keyframes bell-ring {
+  0%, 100% { transform: rotate(0deg); }
+  15%      { transform: rotate(14deg); }
+  30%      { transform: rotate(-12deg); }
+  45%      { transform: rotate(9deg); }
+  60%      { transform: rotate(-6deg); }
+  75%      { transform: rotate(3deg); }
+}
+.animate-bell-ring { animation: bell-ring 0.85s ease-in-out; transform-origin: 50% 0; }
+
 /* Custom cursor: hide the OS pointer everywhere when active. */
 @media (pointer: fine) {
   body.custom-cursor-active,

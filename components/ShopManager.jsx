@@ -2,12 +2,29 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "@/components/Icon";
 
 export default function ShopManager({ shop, barbers, services, report, bookings, day }) {
   const router = useRouter();
   const [tab, setTab] = useState("barbers");
+  const [pending, setPending] = useState([]);
+
+  // Keep the pending queue badge live without blocking the page.
+  async function refreshPending() {
+    try {
+      const res = await fetch(`/api/owner/shops/${shop.id}/pending`, { cache: "no-store" });
+      if (res.ok) {
+        const d = await res.json();
+        setPending(d.bookings || []);
+      }
+    } catch {}
+  }
+  useEffect(() => {
+    refreshPending();
+    const iv = setInterval(refreshPending, 30_000);
+    return () => clearInterval(iv);
+  }, [shop.id]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -29,17 +46,32 @@ export default function ShopManager({ shop, barbers, services, report, bookings,
               <Icon name="clock" className="h-3 w-3" /> {shop.open_hour}:00 → {shop.close_hour}:00
             </span>
             <span className="pill-brand">{barbers.length} barbers on staff</span>
+            {pending.length > 0 && (
+              <button
+                onClick={() => setTab("pending")}
+                className="pill-amber inline-flex items-center gap-1 hover:bg-amber-100"
+              >
+                <Icon name="bell" className="h-3 w-3" /> {pending.length} awaiting your review
+              </button>
+            )}
           </div>
         </div>
         <DeleteShopButton id={shop.id} />
       </header>
 
-      <div className="flex gap-1 border-b border-ink-100">
+      <div className="flex gap-1 overflow-x-auto border-b border-ink-100">
         <TabBtn
           label="Seats & barbers"
           icon="chair"
           active={tab === "barbers"}
           onClick={() => setTab("barbers")}
+        />
+        <TabBtn
+          label={`Pending (${pending.length})`}
+          icon="bell"
+          active={tab === "pending"}
+          onClick={() => setTab("pending")}
+          attention={pending.length > 0}
         />
         <TabBtn
           label={`Today's totals (${day})`}
@@ -48,7 +80,7 @@ export default function ShopManager({ shop, barbers, services, report, bookings,
           onClick={() => setTab("report")}
         />
         <TabBtn
-          label={`Bookings (${bookings.length})`}
+          label={`Day (${bookings.length})`}
           icon="calendar"
           active={tab === "bookings"}
           onClick={() => setTab("bookings")}
@@ -56,26 +88,117 @@ export default function ShopManager({ shop, barbers, services, report, bookings,
       </div>
 
       {tab === "barbers" && <BarbersTab shop={shop} barbers={barbers} services={services} />}
+      {tab === "pending" && (
+        <PendingTab
+          bookings={pending}
+          onChanged={() => {
+            refreshPending();
+            router.refresh();
+          }}
+        />
+      )}
       {tab === "report" && <ReportTab shop={shop} report={report} day={day} />}
       {tab === "bookings" && (
         <BookingsTab
           bookings={bookings}
           day={day}
           shopId={shop.id}
-          onChanged={() => router.refresh()}
+          onChanged={() => {
+            refreshPending();
+            router.refresh();
+          }}
         />
       )}
     </div>
   );
 }
 
-function TabBtn({ label, icon, active, onClick }) {
+function PendingTab({ bookings, onChanged }) {
+  async function setStatus(id, status) {
+    const res = await fetch(`/api/owner/bookings/${id}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ status }),
+    });
+    if (res.ok) onChanged();
+  }
+
+  if (bookings.length === 0) {
+    return (
+      <div className="card flex flex-col items-center gap-2 py-10 text-center">
+        <span className="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-50 text-emerald-700">
+          <Icon name="check" className="h-5 w-5" />
+        </span>
+        <p className="display text-lg text-ink-900">All caught up.</p>
+        <p className="text-sm text-ink-400">
+          No bookings awaiting your review right now.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-sm text-ink-400">
+        Review each request below. Confirming locks in the slot; declining frees it for someone else.
+      </p>
+      {bookings.map((b) => (
+        <div
+          key={b.id}
+          className="card border-l-4 border-l-amber-400 flex flex-col gap-3 md:flex-row md:items-center"
+        >
+          <div className="grid place-items-center rounded-md bg-paper-100 px-3 py-2 text-center">
+            <p className="display text-lg tabular-nums">
+              {new Date(b.start_at).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
+            <p className="text-[10px] uppercase tracking-widest text-ink-400">
+              {new Date(b.start_at).toLocaleDateString()}
+            </p>
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-bold">
+              {b.customer_name}
+              {b.customer_phone && (
+                <span className="ml-2 inline-flex items-center gap-1 text-xs font-normal text-ink-400">
+                  <Icon name="phone" className="h-3 w-3" /> {b.customer_phone}
+                </span>
+              )}
+            </p>
+            <p className="text-sm text-ink-400">
+              {b.service_name} with {b.barber_name} (Seat {b.seat_number}) — $
+              {Number(b.price).toFixed(2)}
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => setStatus(b.id, "booked")}
+              className="btn-primary inline-flex items-center gap-1 text-xs"
+            >
+              <Icon name="check" className="h-3.5 w-3.5" /> Confirm
+            </button>
+            <button
+              onClick={() => setStatus(b.id, "declined")}
+              className="btn-ghost inline-flex items-center gap-1 text-xs"
+            >
+              <Icon name="x" className="h-3.5 w-3.5" /> Decline
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function TabBtn({ label, icon, active, onClick, attention }) {
   return (
     <button
       onClick={onClick}
-      className={`tab-btn inline-flex items-center gap-1.5 ${active ? "tab-btn-active" : ""}`}
+      className={`tab-btn inline-flex items-center gap-1.5 whitespace-nowrap ${active ? "tab-btn-active" : ""}`}
     >
-      <Icon name={icon} className="h-3.5 w-3.5" />
+      <Icon name={icon} className={`h-3.5 w-3.5 ${attention ? "text-amber-600" : ""}`} />
       {label}
     </button>
   );
@@ -558,13 +681,29 @@ function BookingsTab({ bookings, day, onChanged }) {
             className={`pill ${
               b.status === "completed"
                 ? "pill-green"
-                : b.status === "cancelled"
+                : b.status === "cancelled" || b.status === "declined"
                 ? "pill-slate"
                 : "pill-amber"
             }`}
           >
             {b.status}
           </span>
+          {b.status === "pending" && (
+            <div className="flex gap-1">
+              <button
+                onClick={() => setStatus(b.id, "booked")}
+                className="btn-primary inline-flex items-center gap-1 text-xs"
+              >
+                <Icon name="check" className="h-3.5 w-3.5" /> Confirm
+              </button>
+              <button
+                onClick={() => setStatus(b.id, "declined")}
+                className="btn-ghost text-xs"
+              >
+                Decline
+              </button>
+            </div>
+          )}
           {b.status === "booked" && (
             <div className="flex gap-1">
               <button

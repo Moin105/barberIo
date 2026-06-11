@@ -118,12 +118,13 @@ export default function BookingPanel({ barber, services, me }) {
 
   if (bookedId) {
     return (
-      <div className="card flex items-start gap-3 border-emerald-200 bg-emerald-50">
-        <Icon name="check" className="mt-0.5 h-5 w-5 text-emerald-700" />
+      <div className="card flex items-start gap-3 border-amber-200 bg-amber-50">
+        <Icon name="clock" className="mt-0.5 h-5 w-5 text-amber-700" />
         <div>
-          <p className="display text-lg text-emerald-900">Booking confirmed.</p>
-          <p className="text-sm text-emerald-800">
-            See it in{" "}
+          <p className="display text-lg text-amber-900">Awaiting confirmation.</p>
+          <p className="text-sm text-amber-800">
+            Your request was sent to the shop. You'll get a notification when{" "}
+            <b>{barber.name}</b> confirms or declines, and you can track it in{" "}
             <Link href="/my-bookings" className="font-semibold underline">
               My bookings
             </Link>

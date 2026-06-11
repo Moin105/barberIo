@@ -108,16 +108,22 @@ export default function MyBookingsList({ bookings }) {
                     className={`pill ${
                       b.status === "completed"
                         ? "pill-green"
-                        : b.status === "cancelled"
+                        : b.status === "cancelled" || b.status === "declined"
                         ? "pill-slate"
-                        : upcoming
+                        : b.status === "pending"
                         ? "pill-amber"
+                        : upcoming
+                        ? "pill-brand"
                         : "pill-slate"
                     }`}
                   >
-                    {b.status}
+                    {b.status === "pending"
+                      ? "awaiting confirmation"
+                      : b.status === "booked"
+                      ? "confirmed"
+                      : b.status}
                   </span>
-                  {b.status === "booked" && upcoming && (
+                  {["pending", "booked"].includes(b.status) && upcoming && (
                     <button
                       disabled={busy === b.id}
                       onClick={() => cancel(b.id)}

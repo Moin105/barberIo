@@ -12,6 +12,7 @@ export default async function OwnerLayout({ children }) {
     { href: "/owner", label: "Dashboard", icon: "home" },
     { href: "/owner/shops", label: "Shops & barbers", icon: "store" },
     { href: "/owner/services", label: "Services", icon: "scissors" },
+    { href: "/owner/promotions", label: "Deals & promotions", icon: "megaphone" },
   ];
 
   return (

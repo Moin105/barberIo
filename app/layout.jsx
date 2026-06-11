@@ -4,6 +4,7 @@ import Logo from "@/components/Logo";
 import Icon from "@/components/Icon";
 import CustomCursor from "@/components/CustomCursor";
 import InteractiveBackground from "@/components/InteractiveBackground";
+import NotificationBell from "@/components/NotificationBell";
 import { getMe } from "@/lib/api";
 
 export const metadata = {
@@ -52,6 +53,7 @@ export default async function RootLayout({ children }) {
                       Browse shops
                     </Link>
                   )}
+                  <NotificationBell />
                   {home && (
                     <Link href={home.href} className="btn-ghost">
                       {home.label}

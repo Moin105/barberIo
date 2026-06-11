@@ -139,6 +139,24 @@ const PATHS = {
       <path d="M10 14 21 3" />
     </>
   ),
+  bell: (
+    <>
+      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+    </>
+  ),
+  megaphone: (
+    <>
+      <path d="M3 11v2a2 2 0 0 0 2 2h2l5 5V4l-5 5H5a2 2 0 0 0-2 2Z" />
+      <path d="M16 9a4 4 0 0 1 0 6" />
+    </>
+  ),
+  tag: (
+    <>
+      <path d="M20 11.5V5a1 1 0 0 0-1-1h-6.5a1 1 0 0 0-.7.3l-9 9a1 1 0 0 0 0 1.4l6.5 6.5a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 .3-.7Z" />
+      <circle cx="15.5" cy="8.5" r="1.2" fill="currentColor" />
+    </>
+  ),
 };
 
 export default function Icon({
