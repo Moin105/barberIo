@@ -17,22 +17,22 @@ export default function Home() {
 
 function Hero() {
   return (
-    <section className="relative -mt-2 overflow-hidden rounded-3xl bg-ink-gradient text-white">
-      <div className="absolute inset-0 bg-grid bg-[length:36px_36px] opacity-30" />
+    <section className="relative -mt-2 isolate overflow-hidden rounded-3xl bg-ink-gradient text-white">
+      <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:36px_36px] opacity-30" />
       <div
-        className="absolute -right-32 -top-32 h-[440px] w-[440px] rounded-full opacity-30 blur-3xl"
+        className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-30 blur-3xl"
         style={{ background: "radial-gradient(closest-side,#ef2b2b,transparent 70%)" }}
       />
-      <div className="absolute -left-24 bottom-0 h-72 w-72 rounded-full opacity-20 blur-3xl"
+      <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full opacity-20 blur-3xl"
         style={{ background: "radial-gradient(closest-side,#f5c662,transparent 70%)" }} />
-      <div className="absolute right-10 top-10 hidden h-40 w-3 rotate-12 rounded-full barber-pole shadow-glow lg:block" />
+      <div className="pointer-events-none absolute right-10 top-10 hidden h-40 w-3 rotate-12 rounded-full barber-pole shadow-glow lg:block" />
 
-      <div className="relative grid gap-10 px-8 py-16 md:grid-cols-[1.1fr_1fr] md:px-14 md:py-24">
+      <div className="relative grid gap-10 px-8 py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-8 lg:px-14 lg:py-20">
         <div className="grid content-center gap-6 animate-fade-up">
           <span className="pill-brand w-fit border-brand-500/30 bg-brand-500/10 text-brand-100">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-400" /> New · multi-shop CMS
           </span>
-          <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight md:text-6xl">
+          <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
             Run your barber empire <br />
             <span className="bg-gradient-to-r from-brand-400 via-brand-300 to-gold-400 bg-clip-text text-transparent">
               from a single chair.
@@ -69,7 +69,7 @@ function Hero() {
 
 function FloatingDashboard() {
   return (
-    <div className="relative mx-auto w-full max-w-md">
+    <div className="relative mx-auto w-full max-w-md px-4 sm:px-0">
       <div className="card-dark animate-fade-up p-5">
         <div className="flex items-center justify-between text-xs text-white/70">
           <span>Today · Downtown Cuts</span>
@@ -108,14 +108,14 @@ function FloatingDashboard() {
           ))}
         </div>
       </div>
-      <div className="absolute -right-4 -top-4 hidden rotate-6 sm:block">
-        <div className="card w-44 p-3 text-xs">
+      <div className="absolute right-2 -top-3 hidden rotate-6 sm:block">
+        <div className="card w-40 p-3 text-xs">
           <p className="font-bold text-ink-900">⭐ 4.9</p>
           <p className="text-ink-400">"Best fade in town." — 312 reviews</p>
         </div>
       </div>
-      <div className="absolute -left-6 bottom-6 hidden -rotate-6 sm:block">
-        <div className="card w-44 p-3 text-xs">
+      <div className="absolute -left-2 bottom-6 hidden -rotate-6 sm:block">
+        <div className="card w-40 p-3 text-xs">
           <p className="font-bold text-emerald-600">+ $48.00</p>
           <p className="text-ink-400">Beard trim · Marco</p>
         </div>
