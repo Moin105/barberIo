@@ -1,12 +1,12 @@
 import Link from "next/link";
+import Icon from "@/components/Icon";
 
-// Tailwind helpers reused across the page.
 const THREE_COL = "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]";
 const FOUR_COL = "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/4)]";
 
 export default function Home() {
   return (
-    <div className="flex w-full max-w-full flex-col gap-20">
+    <div className="flex w-full flex-col gap-24">
       <Hero />
       <SocialProof />
       <Features />
@@ -21,47 +21,42 @@ export default function Home() {
 
 function Hero() {
   return (
-    <section className="relative -mt-2 isolate w-full max-w-full overflow-hidden rounded-3xl bg-ink-gradient text-white">
-      <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:36px_36px] opacity-30" />
-      <div
-        className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-30 blur-3xl"
-        style={{ background: "radial-gradient(closest-side,#ef2b2b,transparent 70%)" }}
-      />
-      <div
-        className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full opacity-20 blur-3xl"
-        style={{ background: "radial-gradient(closest-side,#f5c662,transparent 70%)" }}
-      />
-      <div className="pointer-events-none absolute right-10 top-10 hidden h-40 w-3 rotate-12 rounded-full barber-pole shadow-glow lg:block" />
+    <section className="relative -mt-2 isolate overflow-hidden rounded-2xl bg-ink-gradient text-paper-50">
+      <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:36px_36px] opacity-25" />
+      <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-25 blur-3xl"
+        style={{ background: "radial-gradient(closest-side,#b91c1c,transparent 70%)" }} />
+      <div className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full opacity-20 blur-3xl"
+        style={{ background: "radial-gradient(closest-side,#cea24a,transparent 70%)" }} />
+      <div className="pointer-events-none absolute right-10 top-10 hidden h-44 w-2.5 rotate-12 rounded-full barber-pole shadow-soft lg:block" />
 
-      <div className="relative flex w-full flex-col gap-10 px-6 py-14 sm:px-8 lg:flex-row lg:items-center lg:gap-8 lg:px-14 lg:py-20">
-        <div className="flex w-full flex-col justify-center gap-6 animate-fade-up lg:flex-1 lg:basis-0">
-          <span className="pill-brand w-fit border-brand-500/30 bg-brand-500/10 text-brand-100">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-400" /> New · multi-shop CMS
-          </span>
-          <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight break-words sm:text-5xl xl:text-6xl">
-            Run your barber empire <br />
-            <span className="bg-gradient-to-r from-brand-400 via-brand-300 to-gold-400 bg-clip-text text-transparent">
-              from a single chair.
-            </span>
+      <div className="relative flex w-full flex-col gap-10 px-6 py-14 sm:px-8 lg:flex-row lg:items-center lg:gap-10 lg:px-14 lg:py-20">
+        <div className="flex w-full flex-col justify-center gap-7 animate-fade-up lg:flex-1 lg:basis-0">
+          <span className="eyebrow text-brand-200">A premium CMS for barbers</span>
+          <h1 className="display text-5xl text-paper-50 sm:text-6xl xl:text-7xl">
+            The chair. <br />
+            The till. <br />
+            <span className="italic text-brand-400">The whole shop.</span>
           </h1>
-          <p className="max-w-xl text-lg text-ink-100/85">
-            Clipper is the all-in-one CMS for barber shop owners. Manage shops, seats,
-            barbers and bookings — and give every barber their own login to see who's
+          <p className="max-w-xl text-base text-paper-100/80 sm:text-lg">
+            Clipper is the all-in-one CMS for barber shop owners — manage shops, seats,
+            barbers and bookings in one place. Every barber gets their own login to see who's
             sitting in their chair today.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/owner/signup" className="btn-primary text-base px-5 py-3">
-              🪑 Open your shop on Clipper
+            <Link href="/owner/signup" className="btn-primary px-5 py-3 text-base">
+              <Icon name="store" className="h-4 w-4" /> Open your shop
             </Link>
-            <Link href="/shops" className="btn-outline text-base px-5 py-3">
-              ✂️ I just want a haircut
+            <Link href="/shops" className="btn-outline px-5 py-3 text-base">
+              <Icon name="scissors" className="h-4 w-4" /> Find a barber
             </Link>
           </div>
-          <div className="mt-2 flex flex-wrap items-center gap-6 text-xs text-ink-100/70">
-            <span className="flex items-center gap-2">
-              <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" /> Free forever for small shops
+          <div className="mt-1 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-paper-100/70">
+            <span className="inline-flex items-center gap-2">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              Free forever for small shops
             </span>
             <span>No card required</span>
+            <span className="hidden sm:inline">Vercel-deployable in 3 minutes</span>
           </div>
         </div>
 
@@ -77,24 +72,26 @@ function FloatingDashboard() {
   return (
     <div className="relative mx-auto w-full max-w-md px-4 sm:px-0">
       <div className="card-dark animate-fade-up p-5">
-        <div className="flex items-center justify-between text-xs text-white/70">
+        <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-paper-50/70">
           <span>Today · Downtown Cuts</span>
-          <span className="pill-brand border-brand-500/30 bg-brand-500/10 text-brand-100">
-            LIVE
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-500/15 px-2 py-0.5 text-brand-200">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-400" />
+            Live
           </span>
         </div>
-        <p className="mt-3 text-3xl font-extrabold">
-          $1,284<span className="text-base font-medium text-white/60"> earned today</span>
+        <p className="mt-3 display text-3xl text-paper-50">
+          $1,284
+          <span className="ml-1 text-sm font-medium text-paper-50/60">earned today</span>
         </p>
-        <div className="mt-4 flex gap-2 text-center text-xs">
+        <div className="mt-4 flex gap-2 text-center text-[11px]">
           {[
             { label: "Marco · Seat 1", v: "$412", c: "bg-emerald-400/20" },
             { label: "Luca · Seat 2", v: "$398", c: "bg-amber-400/20" },
             { label: "Dre · Seat 3", v: "$474", c: "bg-brand-500/20" },
           ].map((s) => (
-            <div key={s.label} className={`${s.c} flex-1 rounded-lg p-2.5`}>
-              <p className="truncate text-white/80">{s.label}</p>
-              <p className="text-base font-bold">{s.v}</p>
+            <div key={s.label} className={`${s.c} flex-1 rounded-md p-2.5`}>
+              <p className="truncate text-paper-50/80">{s.label}</p>
+              <p className="display text-base text-paper-50">{s.v}</p>
             </div>
           ))}
         </div>
@@ -104,28 +101,30 @@ function FloatingDashboard() {
             { t: "11:00", c: "Sam P.", s: "Beard line-up", b: "Luca" },
             { t: "11:30", c: "Riley T.", s: "Kid's cut", b: "Dre" },
           ].map((b) => (
-            <div
-              key={b.t}
-              className="flex items-center gap-3 rounded-lg bg-white/5 px-3 py-2 text-xs"
-            >
-              <span className="font-bold text-white">{b.t}</span>
-              <span className="flex-1 truncate text-white/85">
-                {b.c} <span className="text-white/50">·</span> {b.s}
+            <div key={b.t} className="flex items-center gap-3 rounded-md bg-paper-50/5 px-3 py-2 text-xs">
+              <span className="font-bold text-paper-50">{b.t}</span>
+              <span className="flex-1 truncate text-paper-50/85">
+                {b.c} <span className="text-paper-50/40">·</span> {b.s}
               </span>
-              <span className="text-white/60">{b.b}</span>
+              <span className="text-paper-50/60">{b.b}</span>
             </div>
           ))}
         </div>
       </div>
+
       <div className="absolute right-2 -top-3 hidden rotate-6 sm:block">
         <div className="card w-40 p-3 text-xs">
-          <p className="font-bold text-ink-900">⭐ 4.9</p>
+          <p className="flex items-center gap-1 font-bold text-ink-900">
+            <Icon name="star" className="h-3.5 w-3.5 text-brass-500" filled /> 4.9
+          </p>
           <p className="text-ink-400">"Best fade in town." — 312 reviews</p>
         </div>
       </div>
       <div className="absolute -left-2 bottom-6 hidden -rotate-6 sm:block">
-        <div className="card w-40 p-3 text-xs">
-          <p className="font-bold text-emerald-600">+ $48.00</p>
+        <div className="card w-44 p-3 text-xs">
+          <p className="flex items-center gap-1 font-bold text-emerald-700">
+            <Icon name="plus" className="h-3.5 w-3.5" /> $48.00
+          </p>
           <p className="text-ink-400">Beard trim · Marco</p>
         </div>
       </div>
@@ -136,15 +135,15 @@ function FloatingDashboard() {
 function SocialProof() {
   const logos = ["Barber Co.", "Sharp Cuts", "Fade Lab", "The Pole", "Knight Shave", "Goldline"];
   return (
-    <section className="-mt-8">
-      <p className="text-center text-xs font-semibold uppercase tracking-widest text-ink-400">
+    <section className="-mt-12">
+      <p className="text-center text-[11px] font-semibold uppercase tracking-widest text-ink-400">
         Trusted by shops across the country
       </p>
       <div className="marquee mt-4 overflow-hidden">
-        <div className="flex items-center justify-center gap-10 text-lg font-bold text-ink-200">
+        <div className="flex items-center justify-center gap-10 text-lg text-ink-200">
           {logos.concat(logos).map((l, i) => (
-            <span key={i} className="whitespace-nowrap">
-              💈 {l}
+            <span key={i} className="display whitespace-nowrap tracking-tight">
+              {l}
             </span>
           ))}
         </div>
@@ -155,35 +154,33 @@ function SocialProof() {
 
 function Features() {
   const items = [
-    { e: "🏪", t: "Multi-shop CMS", d: "Every shop has its own barbers, seats, hours and services. One owner, many locations." },
-    { e: "🪑", t: "Seat-level scheduling", d: "Each barber sits at their chair. Bookings auto-route by seat — no double-booking, ever." },
-    { e: "💰", t: "End-of-day totals", d: "Per-barber, per-shop revenue updates the moment the last appointment closes." },
-    { e: "💈", t: "Per-barber pricing", d: "Senior barbers charge senior rates. Override the base price for any service." },
-    { e: "🔐", t: "Barber logins", d: "Every barber gets their own profile. They see who's in their chair next, all day." },
-    { e: "⭐", t: "Customer ratings", d: "Verified reviews unlock only after a real visit. Build a reputation that compounds." },
+    { icon: "store", t: "Multi-shop CMS", d: "Every shop has its own barbers, seats, hours and services. One owner, many locations." },
+    { icon: "chair", t: "Seat-level scheduling", d: "Each barber sits at their chair. Bookings auto-route by seat — no double-booking, ever." },
+    { icon: "wallet", t: "End-of-day totals", d: "Per-barber, per-shop revenue updates the moment the last appointment closes." },
+    { icon: "scissors", t: "Per-barber pricing", d: "Senior barbers charge senior rates. Override the base price for any service." },
+    { icon: "lock", t: "Barber logins", d: "Every barber gets their own profile. They see who's in their chair next, all day." },
+    { icon: "star", t: "Customer ratings", d: "Verified reviews unlock only after a real visit. Build a reputation that compounds." },
   ];
   return (
-    <section className="flex flex-col gap-8">
+    <section className="flex flex-col gap-10">
       <div className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-brand-500">
-          Built for the chair, the till and the front desk
-        </p>
-        <h2 className="mt-2 text-4xl font-extrabold tracking-tight text-ink-900">
+        <span className="eyebrow mx-auto">Built for the chair, the till and the front desk</span>
+        <h2 className="display mt-3 text-4xl text-ink-900 sm:text-5xl">
           Everything a shop owner actually needs.
         </h2>
-        <p className="mx-auto mt-2 max-w-xl text-ink-400">
-          Forget five different apps. Clipper handles bookings, payments, staff and reporting — and
-          looks good doing it.
+        <p className="mx-auto mt-3 max-w-xl text-ink-400">
+          Forget five different apps. Clipper handles bookings, payments, staff and reporting —
+          and looks good doing it.
         </p>
       </div>
       <div className="flex flex-wrap gap-4">
         {items.map((it) => (
           <div key={it.t} className={`card card-hover group ${THREE_COL}`}>
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-2xl transition group-hover:scale-110">
-              {it.e}
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50 text-brand-700 transition group-hover:scale-105">
+              <Icon name={it.icon} className="h-5 w-5" />
             </div>
-            <h3 className="mt-3 font-bold text-ink-900">{it.t}</h3>
-            <p className="mt-1 text-sm text-ink-400">{it.d}</p>
+            <h3 className="mt-4 display text-xl text-ink-900">{it.t}</h3>
+            <p className="mt-1.5 text-sm text-ink-400">{it.d}</p>
           </div>
         ))}
       </div>
@@ -195,28 +192,31 @@ function RoleGrid() {
   const roles = [
     {
       href: "/owner/signup",
-      bg: "bg-brand-gradient text-white",
+      bg: "bg-brand-gradient text-paper-50",
       tag: "OWNER",
+      icon: "store",
       title: "Run your business",
       body: "Add shops, seats and barbers. Set fees. See today's earnings, every day.",
-      cta: "Open my shop →",
+      cta: "Open my shop",
     },
     {
       href: "/shops",
-      bg: "bg-white border border-ink-100",
+      bg: "bg-paper-50 border border-ink-100",
       tag: "CUSTOMER",
+      icon: "scissors",
       title: "Book a chair",
       body: "Find the best barber near you. Pick a slot. Walk in, walk out fresh.",
-      cta: "Browse shops →",
+      cta: "Browse shops",
       dark: true,
     },
     {
       href: "/barber/login",
-      bg: "bg-ink-gradient text-white",
+      bg: "bg-ink-gradient text-paper-50",
       tag: "BARBER",
+      icon: "chair",
       title: "Own your chair",
       body: "See every appointment in your day. Know the customer name before they sit down.",
-      cta: "Barber sign in →",
+      cta: "Barber sign in",
     },
   ];
   return (
@@ -227,15 +227,24 @@ function RoleGrid() {
           href={r.href}
           className={`group block rounded-2xl ${r.bg} p-7 shadow-soft transition hover:-translate-y-1 ${THREE_COL}`}
         >
-          <p className={`text-xs font-bold tracking-widest ${r.dark ? "text-brand-500" : "text-white/70"}`}>
-            {r.tag}
-          </p>
-          <h3 className={`mt-2 text-2xl font-extrabold ${r.dark ? "text-ink-900" : ""}`}>
+          <div className="flex items-center gap-3">
+            <span
+              className={`flex h-10 w-10 items-center justify-center rounded-md ${
+                r.dark ? "bg-brand-50 text-brand-700" : "bg-paper-50/15 text-paper-50"
+              }`}
+            >
+              <Icon name={r.icon} className="h-5 w-5" />
+            </span>
+            <p className={`text-[11px] font-bold tracking-widest ${r.dark ? "text-brand-500" : "text-paper-50/70"}`}>
+              {r.tag}
+            </p>
+          </div>
+          <h3 className={`mt-4 display text-2xl ${r.dark ? "text-ink-900" : ""}`}>
             {r.title}
           </h3>
-          <p className={`mt-2 text-sm ${r.dark ? "text-ink-400" : "text-white/80"}`}>{r.body}</p>
-          <p className={`mt-6 font-semibold ${r.dark ? "text-brand-500" : "text-white"}`}>
-            {r.cta}
+          <p className={`mt-2 text-sm ${r.dark ? "text-ink-400" : "text-paper-50/80"}`}>{r.body}</p>
+          <p className={`mt-6 inline-flex items-center gap-1 text-sm font-semibold ${r.dark ? "text-brand-500" : "text-paper-50"}`}>
+            {r.cta} <Icon name="arrow" className="h-4 w-4" />
           </p>
         </Link>
       ))}
@@ -251,20 +260,22 @@ function HowItWorks() {
     { n: "04", t: "Customers book online", d: "Your shops show up on Clipper's marketplace. Booked slots flow straight to barbers." },
   ];
   return (
-    <section className="flex flex-col gap-8">
+    <section className="flex flex-col gap-10">
       <div className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-brand-500">How it works</p>
-        <h2 className="mt-2 text-4xl font-extrabold tracking-tight">Open shop in under 10 minutes.</h2>
+        <span className="eyebrow mx-auto">How it works</span>
+        <h2 className="display mt-3 text-4xl text-ink-900 sm:text-5xl">
+          Open shop in under ten minutes.
+        </h2>
       </div>
       <div className="relative flex flex-wrap gap-4">
-        <div className="absolute left-0 right-0 top-9 hidden h-px bg-gradient-to-r from-transparent via-ink-100 to-transparent lg:block" />
+        <div className="pointer-events-none absolute left-0 right-0 top-10 hidden h-px bg-gradient-to-r from-transparent via-ink-100 to-transparent lg:block" />
         {steps.map((s) => (
           <div key={s.n} className={`relative card card-hover ${FOUR_COL}`}>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-ink-gradient text-xs font-bold text-white">
+            <div className="display flex h-10 w-10 items-center justify-center rounded-md bg-ink-gradient text-sm text-paper-50">
               {s.n}
             </div>
-            <h3 className="mt-3 font-bold">{s.t}</h3>
-            <p className="mt-1 text-sm text-ink-400">{s.d}</p>
+            <h3 className="mt-3 display text-lg text-ink-900">{s.t}</h3>
+            <p className="mt-1.5 text-sm text-ink-400">{s.d}</p>
           </div>
         ))}
       </div>
@@ -301,45 +312,47 @@ function Pricing() {
     },
   ];
   return (
-    <section className="flex flex-col gap-8">
+    <section className="flex flex-col gap-10">
       <div className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-brand-500">Pricing</p>
-        <h2 className="mt-2 text-4xl font-extrabold tracking-tight">Pay only when you grow.</h2>
-        <p className="mt-2 text-ink-400">Start on Free. Upgrade the day you book your 100th customer.</p>
+        <span className="eyebrow mx-auto">Pricing</span>
+        <h2 className="display mt-3 text-4xl text-ink-900 sm:text-5xl">
+          Pay only when you grow.
+        </h2>
+        <p className="mt-3 text-ink-400">Start on Free. Upgrade the day you book your 100th customer.</p>
       </div>
       <div className="flex flex-wrap gap-4">
         {tiers.map((t) => (
           <div
             key={t.name}
             className={`relative flex flex-col gap-4 rounded-2xl p-7 shadow-soft transition hover:-translate-y-1 ${THREE_COL}
-              ${t.featured ? "bg-ink-gradient text-white" : "card"}`}
+              ${t.featured ? "bg-ink-gradient text-paper-50" : "card"}`}
           >
             {t.featured && (
-              <span className="absolute right-5 top-5 pill bg-brand-500 text-white border-brand-600">
-                ⭐ Most popular
+              <span className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full bg-brand-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-paper-50">
+                <Icon name="star" className="h-3 w-3" filled /> Most popular
               </span>
             )}
             <div>
-              <p className={`text-xs font-bold uppercase tracking-widest ${t.featured ? "text-brand-400" : "text-ink-400"}`}>
+              <p className={`text-[11px] font-bold uppercase tracking-widest ${t.featured ? "text-brand-300" : "text-ink-400"}`}>
                 {t.name}
               </p>
-              <p className={`mt-1 ${t.featured ? "text-white/80" : "text-ink-400"} text-sm`}>{t.tagline}</p>
+              <p className={`mt-1 ${t.featured ? "text-paper-50/80" : "text-ink-400"} text-sm`}>{t.tagline}</p>
             </div>
             <div className="flex items-end gap-1">
-              <span className="text-5xl font-extrabold">${t.price}</span>
-              <span className={`${t.featured ? "text-white/70" : "text-ink-400"} mb-1.5 text-sm`}>/ month</span>
+              <span className="display text-5xl">${t.price}</span>
+              <span className={`${t.featured ? "text-paper-50/70" : "text-ink-400"} mb-1.5 text-sm`}>/ month</span>
             </div>
             <ul className="flex flex-col gap-2 text-sm">
               {t.perks.map((p) => (
                 <li key={p} className="flex items-start gap-2">
-                  <span className={t.featured ? "text-brand-400" : "text-brand-500"}>✓</span>
+                  <Icon name="check" className={t.featured ? "mt-0.5 h-4 w-4 text-brand-300" : "mt-0.5 h-4 w-4 text-brand-500"} />
                   {p}
                 </li>
               ))}
             </ul>
             <Link
               href={t.href}
-              className={t.featured ? "btn-primary justify-center" : "btn-dark justify-center"}
+              className={t.featured ? "btn-primary mt-auto justify-center" : "btn-dark mt-auto justify-center"}
             >
               {t.cta}
             </Link>
@@ -357,19 +370,23 @@ function Testimonials() {
     { q: "Booked solid for two weeks the day after we listed. The ratings page does real marketing.", a: "Sam Patel", r: "Owner · Sharp Cuts" },
   ];
   return (
-    <section className="flex flex-col gap-6">
-      <h2 className="text-center text-3xl font-extrabold tracking-tight">
-        From shops that swapped 5 apps for one.
+    <section className="flex flex-col gap-8">
+      <h2 className="display mx-auto max-w-2xl text-center text-3xl text-ink-900 sm:text-4xl">
+        From shops that swapped five apps for one.
       </h2>
       <div className="flex flex-wrap gap-4">
         {quotes.map((c) => (
           <div key={c.a} className={`card card-hover ${THREE_COL}`}>
-            <p className="text-amber-400 text-sm">★★★★★</p>
-            <p className="mt-2 text-sm text-ink-700">"{c.q}"</p>
+            <div className="flex gap-0.5 text-brass-500">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Icon key={i} name="star" className="h-4 w-4" filled />
+              ))}
+            </div>
+            <p className="mt-3 text-sm text-ink-700">"{c.q}"</p>
             <div className="mt-4 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-base">
-                💈
-              </div>
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+                <Icon name="user" className="h-4 w-4" />
+              </span>
               <div className="text-xs">
                 <p className="font-bold">{c.a}</p>
                 <p className="text-ink-400">{c.r}</p>
@@ -384,20 +401,22 @@ function Testimonials() {
 
 function CTA() {
   return (
-    <section className="relative overflow-hidden rounded-3xl bg-brand-gradient px-8 py-16 text-center text-white">
-      <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:32px_32px] opacity-20" />
-      <div className="relative flex flex-col items-center gap-5">
-        <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl">
-          Your chair. Your shop. Your software.
+    <section className="relative overflow-hidden rounded-2xl bg-brand-gradient px-8 py-16 text-center text-paper-50">
+      <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:32px_32px] opacity-15" />
+      <div className="pointer-events-none absolute -left-12 -top-12 h-44 w-2.5 rotate-12 rounded-full barber-pole opacity-90" />
+      <div className="pointer-events-none absolute -right-12 -bottom-12 h-44 w-2.5 -rotate-12 rounded-full barber-pole opacity-90" />
+      <div className="relative flex flex-col items-center gap-6">
+        <h2 className="display text-4xl sm:text-5xl">
+          Your chair. Your shop. <br /> Your software.
         </h2>
-        <p className="mx-auto max-w-xl text-white/80">
+        <p className="mx-auto max-w-xl text-paper-50/85">
           Spin up your shop on Clipper in minutes. Free for one location, forever.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <Link href="/owner/signup" className="btn-dark text-base px-5 py-3">
+          <Link href="/owner/signup" className="btn-dark px-5 py-3 text-base">
             Start your free shop
           </Link>
-          <Link href="/shops" className="btn-outline text-base px-5 py-3">
+          <Link href="/shops" className="btn-outline px-5 py-3 text-base">
             See live shops
           </Link>
         </div>

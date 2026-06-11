@@ -1,26 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Icon from "@/components/Icon";
 
 export default function ShopManager({ shop, barbers, services, report, bookings, day }) {
   const router = useRouter();
   const [tab, setTab] = useState("barbers");
 
   return (
-    <div className="grid gap-6">
-      <header className="flex items-start justify-between gap-4">
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col items-start justify-between gap-4 sm:flex-row">
         <div>
-          <Link href="/owner/shops" className="text-xs text-ink-400 hover:text-brand-500">
-            ← All shops
+          <Link
+            href="/owner/shops"
+            className="inline-flex items-center gap-1 text-xs text-ink-400 hover:text-brand-500"
+          >
+            <Icon name="arrow" className="h-3.5 w-3.5 -scale-x-100" /> All shops
           </Link>
-          <h1 className="section-title">{shop.name}</h1>
+          <h1 className="section-title mt-2">{shop.name}</h1>
           <p className="muted">{shop.address || "No address"}</p>
-          <div className="mt-2 flex gap-2">
-            <span className="pill-slate">🪑 {shop.seats} seats</span>
-            <span className="pill-slate">
-              🕘 {shop.open_hour}:00 → {shop.close_hour}:00
+          <div className="mt-2 flex flex-wrap gap-2">
+            <span className="pill-slate inline-flex items-center gap-1">
+              <Icon name="chair" className="h-3 w-3" /> {shop.seats} seats
+            </span>
+            <span className="pill-slate inline-flex items-center gap-1">
+              <Icon name="clock" className="h-3 w-3" /> {shop.open_hour}:00 → {shop.close_hour}:00
             </span>
             <span className="pill-brand">{barbers.length} barbers on staff</span>
           </div>
@@ -29,14 +35,21 @@ export default function ShopManager({ shop, barbers, services, report, bookings,
       </header>
 
       <div className="flex gap-1 border-b border-ink-100">
-        <TabBtn label="🪑 Seats & barbers" active={tab === "barbers"} onClick={() => setTab("barbers")} />
         <TabBtn
-          label={`💰 Today's totals (${day})`}
+          label="Seats & barbers"
+          icon="chair"
+          active={tab === "barbers"}
+          onClick={() => setTab("barbers")}
+        />
+        <TabBtn
+          label={`Today's totals (${day})`}
+          icon="wallet"
           active={tab === "report"}
           onClick={() => setTab("report")}
         />
         <TabBtn
-          label={`📅 Bookings (${bookings.length})`}
+          label={`Bookings (${bookings.length})`}
+          icon="calendar"
           active={tab === "bookings"}
           onClick={() => setTab("bookings")}
         />
@@ -56,12 +69,13 @@ export default function ShopManager({ shop, barbers, services, report, bookings,
   );
 }
 
-function TabBtn({ label, active, onClick }) {
+function TabBtn({ label, icon, active, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`tab-btn ${active ? "tab-btn-active" : ""}`}
+      className={`tab-btn inline-flex items-center gap-1.5 ${active ? "tab-btn-active" : ""}`}
     >
+      <Icon name={icon} className="h-3.5 w-3.5" />
       {label}
     </button>
   );
@@ -112,14 +126,16 @@ function BarbersTab({ shop, barbers, services }) {
   }
 
   return (
-    <div className="grid gap-6">
-      <div className="grid gap-3 sm:grid-cols-2">
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-wrap gap-3">
         {seatNumbers.map((n) => {
           const occupants = seatMap[n] || [];
           return (
-            <div key={n} className="card border-l-4 border-l-brand-500">
+            <div key={n} className="card w-full border-l-4 border-l-brand-500 md:w-[calc((100%-0.75rem)/2)]">
               <div className="flex items-center justify-between">
-                <p className="font-bold">🪑 Seat {n}</p>
+                <p className="display inline-flex items-center gap-2 text-lg">
+                  <Icon name="chair" className="h-4 w-4 text-brand-700" /> Seat {n}
+                </p>
                 <span className="pill-slate">
                   {occupants.length === 0
                     ? "Empty"
@@ -129,7 +145,7 @@ function BarbersTab({ shop, barbers, services }) {
               {occupants.length === 0 ? (
                 <p className="mt-2 text-xs text-ink-400">No barber assigned yet.</p>
               ) : (
-                <div className="mt-3 grid gap-2">
+                <div className="mt-3 flex flex-col gap-2">
                   {occupants.map((b) => (
                     <BarberCard
                       key={b.id}
@@ -146,14 +162,16 @@ function BarbersTab({ shop, barbers, services }) {
         })}
       </div>
 
-      <form onSubmit={addBarber} className="card grid gap-3">
-        <h3 className="font-bold">➕ Add barber</h3>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div>
+      <form onSubmit={addBarber} className="card flex flex-col gap-3">
+        <h3 className="display inline-flex items-center gap-2 text-lg">
+          <Icon name="plus" className="h-4 w-4 text-brand-700" /> Add barber
+        </h3>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex-1">
             <label className="label">Name</label>
             <input name="name" required className="input" placeholder="Marco Rossi" />
           </div>
-          <div>
+          <div className="sm:w-44">
             <label className="label">Seat</label>
             <select name="seat_number" className="input">
               {seatNumbers.map((n) => (
@@ -163,14 +181,18 @@ function BarbersTab({ shop, barbers, services }) {
               ))}
             </select>
           </div>
-          <div className="sm:col-span-2">
-            <label className="label">Short bio</label>
-            <input name="bio" className="input" placeholder="15 years on the chair · loves classic cuts" />
-          </div>
-          <div className="sm:col-span-2">
-            <label className="label">Photo URL</label>
-            <input name="photo_url" className="input" placeholder="https://…" />
-          </div>
+        </div>
+        <div>
+          <label className="label">Short bio</label>
+          <input
+            name="bio"
+            className="input"
+            placeholder="15 years on the chair · classic cuts"
+          />
+        </div>
+        <div>
+          <label className="label">Photo URL</label>
+          <input name="photo_url" className="input" placeholder="https://…" />
         </div>
 
         <label className="flex items-center gap-2 text-sm font-semibold text-ink-700">
@@ -184,8 +206,8 @@ function BarbersTab({ shop, barbers, services }) {
         </label>
 
         {withLogin && (
-          <div className="grid gap-3 rounded-xl bg-ink-50 p-3 sm:grid-cols-2">
-            <div>
+          <div className="flex flex-col gap-3 rounded-md bg-paper-100/60 p-3 sm:flex-row">
+            <div className="flex-1">
               <label className="label">Barber email</label>
               <input
                 name="login_email"
@@ -195,7 +217,7 @@ function BarbersTab({ shop, barbers, services }) {
                 placeholder="marco@example.com"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <label className="label">Initial password</label>
               <input
                 name="login_password"
@@ -210,7 +232,9 @@ function BarbersTab({ shop, barbers, services }) {
         )}
 
         {error && (
-          <div className="rounded-lg bg-brand-50 px-3 py-2 text-sm text-brand-700">{error}</div>
+          <div className="rounded-md border border-brand-100 bg-brand-50 px-3 py-2 text-sm text-brand-700">
+            {error}
+          </div>
         )}
         <button disabled={busy} className="btn-primary w-fit">
           {busy ? "Saving…" : "Add barber"}
@@ -287,33 +311,37 @@ function BarberCard({ barber, services, shop, onDelete }) {
   }
 
   return (
-    <div className="rounded-xl border border-ink-100 bg-white p-3 transition hover:border-brand-200">
+    <div className="rounded-md border border-ink-100 bg-paper-50 p-3 transition hover:border-brand-200">
       <div className="flex items-center gap-3">
         {barber.photo_url ? (
           <img
             src={barber.photo_url}
             alt={barber.name}
-            className="h-12 w-12 rounded-full object-cover"
+            className="h-12 w-12 rounded-md object-cover"
           />
         ) : (
-          <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-50 text-xl">
-            💈
+          <div className="flex h-12 w-12 items-center justify-center rounded-md bg-brand-50 text-brand-700">
+            <Icon name="user" className="h-6 w-6" />
           </div>
         )}
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <p className="font-bold">{barber.name}</p>
-          <p className="text-xs text-ink-400">
+          <p className="inline-flex items-center gap-1 truncate text-xs text-ink-400">
             {barber.login_email ? (
-              <>🔑 {barber.login_email}</>
+              <>
+                <Icon name="lock" className="h-3 w-3" /> {barber.login_email}
+              </>
             ) : (
-              <span className="text-amber-700">⚠️ No login set</span>
+              <span className="inline-flex items-center gap-1 text-amber-700">
+                <Icon name="x" className="h-3 w-3" /> No login set
+              </span>
             )}
           </p>
         </div>
         <select
           value={barber.seat_number}
           onChange={(e) => changeSeat(e.target.value)}
-          className="input w-20 py-1 text-xs"
+          className="input w-24 py-1 text-xs"
           title="Seat"
         >
           {Array.from({ length: shop.seats }, (_, i) => i + 1).map((n) => (
@@ -325,19 +353,30 @@ function BarberCard({ barber, services, shop, onDelete }) {
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2 text-xs">
-        <button onClick={toggle} className="btn-ghost text-xs">
-          {open ? "Hide pricing" : "💵 Set fees"}
+        <button onClick={toggle} className="btn-ghost inline-flex items-center gap-1 text-xs">
+          <Icon name="wallet" className="h-3.5 w-3.5" />
+          {open ? "Hide pricing" : "Set fees"}
         </button>
-        <button onClick={() => setLoginOpen(!loginOpen)} className="btn-ghost text-xs">
-          🔐 {barber.login_email ? "Reset login" : "Set login"}
+        <button
+          onClick={() => setLoginOpen(!loginOpen)}
+          className="btn-ghost inline-flex items-center gap-1 text-xs"
+        >
+          <Icon name="lock" className="h-3.5 w-3.5" />
+          {barber.login_email ? "Reset login" : "Set login"}
         </button>
-        <button onClick={onDelete} className="ml-auto text-xs text-brand-600 hover:underline">
-          Remove
+        <button
+          onClick={onDelete}
+          className="ml-auto inline-flex items-center gap-1 text-xs text-brand-600 hover:underline"
+        >
+          <Icon name="trash" className="h-3.5 w-3.5" /> Remove
         </button>
       </div>
 
       {loginOpen && (
-        <form onSubmit={setLogin} className="mt-3 grid gap-2 rounded-lg bg-ink-50 p-3 text-xs">
+        <form
+          onSubmit={setLogin}
+          className="mt-3 flex flex-col gap-2 rounded-md bg-paper-100/70 p-3 text-xs"
+        >
           <input
             name="login_email"
             type="email"
@@ -367,13 +406,13 @@ function BarberCard({ barber, services, shop, onDelete }) {
             </p>
           )}
           {!loading && services.length > 0 && (
-            <div className="grid gap-2">
+            <div className="flex flex-col gap-2">
               {services.map((s) => {
                 const row = pricing?.find((p) => p.id === s.id);
                 const override = row?.override_price;
                 return (
                   <div key={s.id} className="flex items-center gap-3 text-xs">
-                    <span className="flex-1 font-medium">{s.name}</span>
+                    <span className="flex-1 truncate font-medium">{s.name}</span>
                     <span className="text-ink-400">
                       base ${Number(s.base_price).toFixed(2)}
                     </span>
@@ -381,12 +420,12 @@ function BarberCard({ barber, services, shop, onDelete }) {
                       type="number"
                       step="0.01"
                       defaultValue={override ?? ""}
-                      placeholder={`use base ($${Number(s.base_price).toFixed(2)})`}
+                      placeholder={`base $${Number(s.base_price).toFixed(2)}`}
                       onBlur={(e) => {
                         if ((override ?? "") !== e.target.value)
                           savePrice(s.id, e.target.value);
                       }}
-                      className="input w-36 py-1.5"
+                      className="input w-32 py-1.5"
                     />
                   </div>
                 );
@@ -409,8 +448,8 @@ function ReportTab({ shop, report, day }) {
   }
   if (!report) return <div className="card">No data.</div>;
   return (
-    <div className="grid gap-4">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
         <input
           type="date"
           value={day}
@@ -418,10 +457,10 @@ function ReportTab({ shop, report, day }) {
           className="input w-fit"
         />
         <div className="text-right">
-          <p className="text-xs font-bold uppercase tracking-widest text-ink-400">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-ink-400">
             Earned · pending
           </p>
-          <p className="text-3xl font-extrabold">
+          <p className="display text-3xl text-ink-900">
             ${report.totals.completed.toFixed(2)}{" "}
             <span className="text-base font-medium text-ink-400">
               + ${report.totals.pending.toFixed(2)}
@@ -484,7 +523,7 @@ function BookingsTab({ bookings, day, onChanged }) {
     if (res.ok) onChanged();
   }
   return (
-    <div className="grid gap-3">
+    <div className="flex flex-col gap-3">
       {bookings.length === 0 && (
         <div className="card text-center text-ink-400">No bookings on {day}.</div>
       )}
@@ -494,21 +533,23 @@ function BookingsTab({ bookings, day, onChanged }) {
             <p className="text-xs text-ink-400">
               {new Date(b.start_at).toLocaleDateString()}
             </p>
-            <p className="font-extrabold tabular-nums">
+            <p className="display text-lg tabular-nums">
               {new Date(b.start_at).toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
             </p>
           </div>
-          <div className="flex-1">
+          <div className="min-w-0 flex-1">
             <p className="font-bold">
               {b.customer_name}
               {b.customer_phone && (
-                <span className="ml-2 text-xs text-ink-400">📞 {b.customer_phone}</span>
+                <span className="ml-2 inline-flex items-center gap-1 text-xs font-normal text-ink-400">
+                  <Icon name="phone" className="h-3 w-3" /> {b.customer_phone}
+                </span>
               )}
             </p>
-            <p className="text-sm text-ink-400">
+            <p className="truncate text-sm text-ink-400">
               {b.service_name} with {b.barber_name} (Seat {b.seat_number}) — $
               {Number(b.price).toFixed(2)}
             </p>
@@ -526,10 +567,16 @@ function BookingsTab({ bookings, day, onChanged }) {
           </span>
           {b.status === "booked" && (
             <div className="flex gap-1">
-              <button onClick={() => setStatus(b.id, "completed")} className="btn-primary text-xs">
-                ✓ Done
+              <button
+                onClick={() => setStatus(b.id, "completed")}
+                className="btn-primary inline-flex items-center gap-1 text-xs"
+              >
+                <Icon name="check" className="h-3.5 w-3.5" /> Done
               </button>
-              <button onClick={() => setStatus(b.id, "cancelled")} className="btn-ghost text-xs">
+              <button
+                onClick={() => setStatus(b.id, "cancelled")}
+                className="btn-ghost text-xs"
+              >
                 Cancel
               </button>
             </div>
@@ -548,8 +595,11 @@ function DeleteShopButton({ id }) {
     if (res.ok) router.push("/owner/shops");
   }
   return (
-    <button onClick={del} className="text-xs text-brand-600 hover:underline">
-      Delete shop
+    <button
+      onClick={del}
+      className="inline-flex items-center gap-1 text-xs text-brand-600 hover:underline"
+    >
+      <Icon name="trash" className="h-3.5 w-3.5" /> Delete shop
     </button>
   );
 }

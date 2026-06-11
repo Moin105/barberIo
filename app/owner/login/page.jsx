@@ -3,16 +3,16 @@ import Link from "next/link";
 
 export default function OwnerLogin() {
   return (
-    <div className="grid gap-4">
+    <div className="flex flex-col items-center gap-4 py-10">
       <AuthForm
         mode="login"
         title="Owner sign in"
         subtitle="Pick up where you left off."
         redirectTo="/owner"
       />
-      <p className="text-center text-sm text-slate-600">
+      <p className="text-center text-sm text-ink-400">
         No account yet?{" "}
-        <Link href="/owner/signup" className="text-brand-500 font-semibold">
+        <Link href="/owner/signup" className="font-semibold text-brand-500 hover:underline">
           Register your business
         </Link>
       </p>

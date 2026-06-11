@@ -2,108 +2,131 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600;700;800&display=swap");
+
 :root {
   color-scheme: light;
-  --brand: #ef2b2b;
 }
 
 html, body {
   height: 100%;
 }
 body {
-  @apply bg-ink-50 text-ink-900 antialiased;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  @apply bg-paper text-ink-900 antialiased;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background-image: var(--tw-bg-grain, none);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(19,17,15,.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity: .6;
+  z-index: 0;
 }
 
 @layer components {
+  .display {
+    font-family: "Bodoni Moda", ui-serif, Georgia, serif;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.02;
+  }
+
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold
            transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none
            focus:outline-none focus:ring-2 focus:ring-brand-500/40;
   }
   .btn-primary {
-    @apply btn bg-brand-gradient text-white shadow-soft
-           hover:shadow-glow hover:-translate-y-0.5 active:translate-y-0;
+    @apply btn bg-brand-gradient text-paper-50 shadow-soft
+           hover:shadow-ring hover:-translate-y-0.5 active:translate-y-0;
   }
   .btn-ghost {
-    @apply btn bg-white border border-ink-100 text-ink-700
-           hover:border-ink-200 hover:bg-ink-50;
+    @apply btn bg-paper-50 border border-ink-100 text-ink-700
+           hover:border-ink-200 hover:bg-paper-100;
   }
   .btn-dark {
-    @apply btn bg-ink-gradient text-white shadow-soft
+    @apply btn bg-ink-gradient text-paper-50 shadow-soft
            hover:opacity-95 hover:-translate-y-0.5 active:translate-y-0;
   }
   .btn-outline {
-    @apply btn bg-transparent border border-white/40 text-white
-           hover:bg-white/10;
+    @apply btn bg-transparent border border-paper-50/40 text-paper-50
+           hover:bg-paper-50/10;
   }
 
   .card {
-    @apply rounded-2xl border border-ink-100 bg-white p-5 shadow-soft transition-all;
+    @apply rounded-xl border border-ink-100 bg-paper-50 p-5 shadow-soft transition-all;
   }
   .card-hover {
-    @apply hover:-translate-y-0.5 hover:shadow-glow hover:border-brand-200;
+    @apply hover:-translate-y-0.5 hover:shadow-ring hover:border-brand-200;
   }
   .card-dark {
-    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 text-white;
+    @apply rounded-xl border border-paper-50/10 bg-paper-50/5 backdrop-blur-sm p-5 text-paper-50;
   }
 
   .label {
-    @apply block text-xs font-semibold uppercase tracking-wide text-ink-400 mb-1.5;
+    @apply block text-[11px] font-semibold uppercase tracking-widest text-ink-400 mb-1.5;
   }
   .input {
-    @apply w-full rounded-lg border border-ink-100 bg-white px-3.5 py-2.5 text-sm text-ink-900
+    @apply w-full rounded-md border border-ink-100 bg-paper-50 px-3.5 py-2.5 text-sm text-ink-900
            placeholder-ink-400/70
            focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500
            transition;
   }
   .pill {
-    @apply inline-flex items-center gap-1 rounded-full bg-ink-50 px-2.5 py-0.5 text-[11px]
-           font-semibold text-ink-700 border border-ink-100;
+    @apply inline-flex items-center gap-1.5 rounded-full bg-paper-100 px-2.5 py-0.5 text-[11px]
+           font-semibold tracking-wide text-ink-700 border border-ink-100;
   }
-  .pill-brand {
-    @apply pill bg-brand-50 text-brand-700 border-brand-100;
-  }
-  .pill-green { @apply pill bg-emerald-50 text-emerald-700 border-emerald-100; }
-  .pill-amber { @apply pill bg-amber-50 text-amber-700 border-amber-100; }
-  .pill-slate { @apply pill bg-slate-100 text-slate-600 border-slate-200; }
+  .pill-brand   { @apply pill bg-brand-50 text-brand-700 border-brand-100; }
+  .pill-green   { @apply pill bg-emerald-50 text-emerald-700 border-emerald-100; }
+  .pill-amber   { @apply pill bg-amber-50 text-amber-700 border-amber-100; }
+  .pill-slate   { @apply pill bg-paper-100 text-ink-400 border-ink-100; }
 
-  .section-title {
-    @apply text-2xl font-extrabold tracking-tight text-ink-900;
-  }
+  .section-title { @apply display text-3xl text-ink-900; }
   .muted { @apply text-sm text-ink-400; }
 
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-brand-500;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-6 bg-brand-500;
+  }
+
   .tab-btn {
-    @apply relative px-4 py-2.5 text-sm font-semibold text-ink-400
-           hover:text-ink-900 transition;
+    @apply relative px-4 py-2.5 text-sm font-semibold text-ink-400 hover:text-ink-900 transition;
   }
-  .tab-btn-active {
-    @apply text-ink-900;
-  }
+  .tab-btn-active { @apply text-ink-900; }
   .tab-btn-active::after {
     content: "";
     @apply absolute left-3 right-3 -bottom-px h-0.5 bg-brand-500 rounded-full;
   }
+
+  .field-row {
+    @apply flex flex-col gap-1.5;
+  }
 }
 
-/* Subtle barber-pole accent for hero etc. */
+/* Hand-built barber-pole texture */
 .barber-pole {
   background: repeating-linear-gradient(
-    -45deg,
-    #ef2b2b 0 14px,
-    #ffffff 14px 28px,
-    #0b0b14 28px 42px,
-    #ffffff 42px 56px
+    135deg,
+    #b91c1c 0 12px,
+    #f6f1e7 12px 24px,
+    #1f1c18 24px 36px,
+    #f6f1e7 36px 48px
   );
+  background-size: 100% 56px;
 }
+.barber-pole-anim { @apply barber-pole animate-slow-pole; }
 
-/* Marquee for badge strip */
 .marquee {
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
 
-/* Grid background helper */
-.bg-dot {
-  background-image: radial-gradient(rgba(11,11,20,.08) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
+/* Make sure body's grain pseudo doesn't catch clicks */
+header, main, footer { position: relative; z-index: 1; }
