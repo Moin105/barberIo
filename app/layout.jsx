@@ -60,7 +60,7 @@ export default async function RootLayout({ children }) {
             </nav>
           </div>
         </header>
-        <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-6xl min-w-0 px-6 py-8">{children}</main>
         <footer className="border-t border-ink-100/60 bg-white/60">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-ink-400 sm:flex-row">
             <p>© {new Date().getFullYear()} Clipper. Built for barbers, by barbers.</p>

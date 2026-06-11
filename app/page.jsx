@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="grid gap-20">
+    <div className="grid w-full max-w-full gap-20 min-w-0">
       <Hero />
       <SocialProof />
       <Features />
@@ -17,7 +17,7 @@ export default function Home() {
 
 function Hero() {
   return (
-    <section className="relative -mt-2 isolate overflow-hidden rounded-3xl bg-ink-gradient text-white">
+    <section className="relative -mt-2 isolate w-full max-w-full overflow-hidden rounded-3xl bg-ink-gradient text-white">
       <div className="pointer-events-none absolute inset-0 bg-grid bg-[length:36px_36px] opacity-30" />
       <div
         className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-30 blur-3xl"
@@ -27,12 +27,12 @@ function Hero() {
         style={{ background: "radial-gradient(closest-side,#f5c662,transparent 70%)" }} />
       <div className="pointer-events-none absolute right-10 top-10 hidden h-40 w-3 rotate-12 rounded-full barber-pole shadow-glow lg:block" />
 
-      <div className="relative grid gap-10 px-8 py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-8 lg:px-14 lg:py-20">
-        <div className="grid content-center gap-6 animate-fade-up">
+      <div className="relative grid min-w-0 gap-10 px-6 py-14 sm:px-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-8 lg:px-14 lg:py-20">
+        <div className="grid min-w-0 content-center gap-6 animate-fade-up">
           <span className="pill-brand w-fit border-brand-500/30 bg-brand-500/10 text-brand-100">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-400" /> New · multi-shop CMS
           </span>
-          <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight break-words sm:text-5xl xl:text-6xl">
             Run your barber empire <br />
             <span className="bg-gradient-to-r from-brand-400 via-brand-300 to-gold-400 bg-clip-text text-transparent">
               from a single chair.
@@ -59,7 +59,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative grid content-center">
+        <div className="relative grid min-w-0 content-center">
           <FloatingDashboard />
         </div>
       </div>
