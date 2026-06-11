@@ -17,7 +17,6 @@ export default async function Home() {
       <Features />
       <RoleGrid />
       <HowItWorks />
-      <Pricing />
       <Testimonials />
       <CTA />
     </div>
@@ -369,86 +368,6 @@ function HowItWorks() {
             </div>
             <h3 className="mt-3 display text-lg text-ink-900">{s.t}</h3>
             <p className="mt-1.5 text-sm text-ink-400">{s.d}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Pricing() {
-  const tiers = [
-    {
-      name: "Free",
-      price: 0,
-      tagline: "For one chair, just getting started.",
-      perks: ["1 shop", "Up to 2 barbers", "Unlimited bookings", "Customer ratings"],
-      cta: "Start free",
-      href: "/owner/signup",
-    },
-    {
-      name: "Pro",
-      price: 49,
-      tagline: "For real shops with real chairs.",
-      perks: ["Unlimited shops & barbers", "Seat-level scheduling", "Per-barber pricing", "Daily revenue reports"],
-      cta: "Go Pro",
-      href: "/owner/signup",
-      featured: true,
-    },
-    {
-      name: "Enterprise",
-      price: 199,
-      tagline: "Franchises, chains, multi-city.",
-      perks: ["Everything in Pro", "Custom branding", "API access", "Priority support"],
-      cta: "Talk to sales",
-      href: "/owner/signup",
-    },
-  ];
-  return (
-    <section className="flex flex-col gap-10">
-      <div className="text-center">
-        <span className="eyebrow mx-auto">Pricing</span>
-        <h2 className="display mt-3 text-4xl text-ink-900 sm:text-5xl">
-          Pay only when you grow.
-        </h2>
-        <p className="mt-3 text-ink-400">Start on Free. Upgrade the day you book your 100th customer.</p>
-      </div>
-      <div className="flex flex-wrap gap-4">
-        {tiers.map((t) => (
-          <div
-            key={t.name}
-            className={`relative flex flex-col gap-4 rounded-2xl p-7 shadow-soft transition hover:-translate-y-1 ${THREE_COL}
-              ${t.featured ? "bg-ink-gradient text-paper-50" : "card"}`}
-          >
-            {t.featured && (
-              <span className="absolute right-5 top-5 inline-flex items-center gap-1 rounded-full bg-brand-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-paper-50">
-                <Icon name="star" className="h-3 w-3" filled /> Most popular
-              </span>
-            )}
-            <div>
-              <p className={`text-[11px] font-bold uppercase tracking-widest ${t.featured ? "text-brand-300" : "text-ink-400"}`}>
-                {t.name}
-              </p>
-              <p className={`mt-1 ${t.featured ? "text-paper-50/80" : "text-ink-400"} text-sm`}>{t.tagline}</p>
-            </div>
-            <div className="flex items-end gap-1">
-              <span className="display text-5xl">${t.price}</span>
-              <span className={`${t.featured ? "text-paper-50/70" : "text-ink-400"} mb-1.5 text-sm`}>/ month</span>
-            </div>
-            <ul className="flex flex-col gap-2 text-sm">
-              {t.perks.map((p) => (
-                <li key={p} className="flex items-start gap-2">
-                  <Icon name="check" className={t.featured ? "mt-0.5 h-4 w-4 text-brand-300" : "mt-0.5 h-4 w-4 text-brand-500"} />
-                  {p}
-                </li>
-              ))}
-            </ul>
-            <Link
-              href={t.href}
-              className={t.featured ? "btn-primary mt-auto justify-center" : "btn-dark mt-auto justify-center"}
-            >
-              {t.cta}
-            </Link>
           </div>
         ))}
       </div>

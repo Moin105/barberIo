@@ -98,8 +98,9 @@ export default function MyBookingsList({ bookings }) {
                         weekday: "short",
                         month: "short",
                         day: "numeric",
-                        hour: "2-digit",
+                        hour: "numeric",
                         minute: "2-digit",
+                        hour12: true,
                       })}{" "}
                       · ${Number(b.price).toFixed(2)}
                     </p>

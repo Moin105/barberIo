@@ -150,8 +150,9 @@ function PendingTab({ bookings, onChanged }) {
           <div className="grid place-items-center rounded-md bg-paper-100 px-3 py-2 text-center">
             <p className="display text-lg tabular-nums">
               {new Date(b.start_at).toLocaleTimeString([], {
-                hour: "2-digit",
+                hour: "numeric",
                 minute: "2-digit",
+                hour12: true,
               })}
             </p>
             <p className="text-[10px] uppercase tracking-widest text-ink-400">
@@ -658,8 +659,9 @@ function BookingsTab({ bookings, day, onChanged }) {
             </p>
             <p className="display text-lg tabular-nums">
               {new Date(b.start_at).toLocaleTimeString([], {
-                hour: "2-digit",
+                hour: "numeric",
                 minute: "2-digit",
+                hour12: true,
               })}
             </p>
           </div>

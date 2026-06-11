@@ -76,8 +76,9 @@ export default function BarberDashboard({ day, barber, bookings, summary, stats 
                 <p className="text-sm">
                   {upcoming.customer_name} ·{" "}
                   {new Date(upcoming.start_at).toLocaleTimeString([], {
-                    hour: "2-digit",
+                    hour: "numeric",
                     minute: "2-digit",
+                    hour12: true,
                   })}
                 </p>
               </div>
