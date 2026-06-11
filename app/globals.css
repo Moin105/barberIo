@@ -24,7 +24,7 @@ body::before {
   background-image: url("/damask.svg");
   background-size: 80px 80px;
   opacity: 1;
-  z-index: 0;
+  z-index: 1;
 }
 
 @layer components {
@@ -160,5 +160,33 @@ body::before {
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
 
-/* Make sure body's grain pseudo doesn't catch clicks */
-header, main, footer { position: relative; z-index: 1; }
+/* Stacking: canvas particles (z-0) → damask pattern (z-1) → chrome (z-10) */
+header, main, footer { position: relative; z-index: 10; }
+
+/* Orbit keyframe for the cursor's satellite */
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-orbit { animation: orbit 5s linear infinite; transform-origin: 50% 50%; }
+
+/* Custom cursor: hide the OS pointer everywhere when active. */
+@media (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+/* Subtle visual states the cursor adopts when hovering an interactive
+   element or while the mouse button is held down. */
+.cursor-ring-inner.cursor-on-target {
+  transform: scale(1.18);
+  color: #b91c1c;
+}
+.cursor-ring-inner.cursor-pressed {
+  transform: scale(0.78);
+}
+.cursor-ring-inner.cursor-on-target.cursor-pressed {
+  transform: scale(0.9);
+}

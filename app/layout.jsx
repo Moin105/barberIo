@@ -2,6 +2,8 @@ import "./globals.css";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import Icon from "@/components/Icon";
+import CustomCursor from "@/components/CustomCursor";
+import InteractiveBackground from "@/components/InteractiveBackground";
 import { getMe } from "@/lib/api";
 
 export const metadata = {
@@ -24,6 +26,8 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="flex min-h-screen flex-col">
+        <InteractiveBackground />
+        <CustomCursor />
         <header className="sticky top-0 z-30 border-b border-ink-100/70 bg-paper-50/85 backdrop-blur">
           <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
             <Logo />
