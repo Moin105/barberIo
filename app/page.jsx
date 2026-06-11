@@ -30,7 +30,7 @@ function Hero() {
       />
       <div
         className="pointer-events-none absolute -left-32 -bottom-32 h-[24rem] w-[24rem] rounded-full opacity-15 blur-3xl"
-        style={{ background: "radial-gradient(closest-side,#b91c1c,transparent 70%)" }}
+        style={{ background: "radial-gradient(closest-side,#ff6a00,transparent 70%)" }}
       />
       <div className="pointer-events-none absolute right-10 top-10 hidden h-44 w-2 rotate-12 rounded-full barber-pole shadow-soft lg:block" />
 

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
   color-scheme: light;
@@ -29,9 +29,9 @@ body::before {
 
 @layer components {
   .display {
-    font-family: "Bodoni Moda", ui-serif, Georgia, serif;
-    font-weight: 800;
-    letter-spacing: -0.01em;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     line-height: 1.02;
   }
 
@@ -115,8 +115,9 @@ body::before {
   background-image: url("/damask-gold.svg");
   background-size: 60px 60px;
 }
+/* Now an electric-orange shimmer (kept the old class name so nothing breaks). */
 .text-shimmer-gold {
-  background-image: linear-gradient(90deg, #cea24a 0%, #f5d98a 40%, #cea24a 60%, #b48433 100%);
+  background-image: linear-gradient(90deg, #ff8024 0%, #ffc28d 40%, #ff6a00 60%, #c14600 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -143,11 +144,11 @@ body::before {
   background: linear-gradient(90deg, transparent, rgba(206,162,74,0.35) 30%, rgba(206,162,74,0.7) 50%, rgba(206,162,74,0.35) 70%, transparent);
 }
 
-/* Hand-built barber-pole texture */
+/* Hand-built barber-pole texture (small accents on cards / edges) */
 .barber-pole {
   background: repeating-linear-gradient(
     135deg,
-    #b91c1c 0 12px,
+    #ff6a00 0 12px,
     #f6f1e7 12px 24px,
     #1f1c18 24px 36px,
     #f6f1e7 36px 48px
@@ -163,7 +164,7 @@ body::before {
   background-image: repeating-linear-gradient(
     115deg,
     transparent 0 36px,
-    rgba(185, 28, 28, 0.030) 36px 40px,
+    rgba(255, 106, 0, 0.038) 36px 40px,
     transparent 40px 80px,
     rgba(180, 132, 51, 0.028) 80px 84px,
     transparent 84px 124px,

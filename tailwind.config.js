@@ -19,15 +19,17 @@ module.exports = {
           700: "#1f1c18",
           900: "#13110f",
         },
+        // Electric orange — bright, saturated, modern. Drives the brand.
         brand: {
-          50: "#fbecec",
-          100: "#f7d4d4",
-          200: "#f0a5a5",
-          400: "#d24343",
-          500: "#b91c1c",
-          600: "#991919",
-          700: "#7a1313",
-          800: "#5a0f0f",
+          50: "#fff4ea",
+          100: "#ffe2cb",
+          200: "#ffc28d",
+          300: "#ffa057",
+          400: "#ff8024",
+          500: "#ff6a00",
+          600: "#e85a00",
+          700: "#bc4500",
+          800: "#8c3300",
         },
         brass: {
           400: "#cea24a",
@@ -36,15 +38,15 @@ module.exports = {
         },
       },
       fontFamily: {
-        display: ['"Bodoni Moda"', '"Playfair Display"', "ui-serif", "Georgia", "serif"],
-        sans: ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        display: ['"Space Grotesk"', "ui-sans-serif", "system-ui", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ['"Inter"', "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
       },
       letterSpacing: {
         widest: "0.2em",
       },
       boxShadow: {
         soft: "0 6px 28px -12px rgba(19, 17, 15, 0.18)",
-        ring: "0 0 0 4px rgba(185, 28, 28, 0.14)",
+        ring: "0 0 0 4px rgba(255, 106, 0, 0.20)",
       },
       animation: {
         "fade-up": "fadeUp 0.6s ease-out both",
@@ -61,7 +63,7 @@ module.exports = {
         },
       },
       backgroundImage: {
-        "brand-gradient": "linear-gradient(135deg, #b91c1c 0%, #7a1313 100%)",
+        "brand-gradient": "linear-gradient(135deg, #ff7a1a 0%, #ff6a00 45%, #c14600 100%)",
         "ink-gradient": "linear-gradient(135deg, #1f1c18 0%, #13110f 100%)",
         grid:
           "linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px)",
