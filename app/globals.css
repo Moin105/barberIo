@@ -156,6 +156,28 @@ body::before {
 }
 .barber-pole-anim { @apply barber-pole animate-slow-pole; }
 
+/* Background-wide barber-pole stripes that slowly drift, giving the page
+   that hypnotic moving-pole feel without ever shouting at you. Sits behind
+   the falling-hair canvas. */
+.barber-pole-bg {
+  background-image: repeating-linear-gradient(
+    115deg,
+    transparent 0 36px,
+    rgba(185, 28, 28, 0.030) 36px 40px,
+    transparent 40px 80px,
+    rgba(180, 132, 51, 0.028) 80px 84px,
+    transparent 84px 124px,
+    rgba(31, 28, 24, 0.025) 124px 128px,
+    transparent 128px 168px
+  );
+  background-size: 100% 168px;
+  animation: pole-drift 26s linear infinite;
+}
+@keyframes pole-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 0 336px; }
+}
+
 .marquee {
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
