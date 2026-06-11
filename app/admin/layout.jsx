@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getMe } from "@/lib/api";
+import { getCurrentUser } from "@/lib/auth";
 
 export default async function AdminLayout({ children }) {
-  const me = await getMe();
+  const me = await getCurrentUser();
   if (!me) redirect("/admin/login");
   if (me.role !== "super_admin") redirect("/");
 

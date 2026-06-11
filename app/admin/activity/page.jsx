@@ -1,8 +1,7 @@
-import { apiJson } from "@/lib/api";
+import { recentActivity } from "@/lib/services/admin";
 
 export default async function AdminActivity() {
-  const data = await apiJson("/admin/recent-activity");
-  const items = data?.activity || [];
+  const items = await recentActivity();
 
   return (
     <div className="grid gap-6">

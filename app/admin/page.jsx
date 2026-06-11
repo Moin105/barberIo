@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { apiJson } from "@/lib/api";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
+import { platformStats, listBusinesses } from "@/lib/services/admin";
 
 export default async function AdminOverview() {
-  const stats = await apiJson("/admin/stats");
-  const biz = await apiJson("/admin/businesses");
-  const businesses = biz?.businesses?.slice(0, 6) || [];
+  const me = await getCurrentUser();
+  if (!me || me.role !== "super_admin") redirect("/admin/login");
 
-  const planPills = stats?.plans || [];
+  const stats = await platformStats();
+  const businesses = (await listBusinesses("")).slice(0, 6);
+  const planPills = stats.plans || [];
 
   return (
     <div className="grid gap-6">
@@ -16,12 +19,12 @@ export default async function AdminOverview() {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-        <Stat label="Owners" v={stats?.owners ?? 0} />
-        <Stat label="Customers" v={stats?.customers ?? 0} />
-        <Stat label="Barbers" v={stats?.barbers ?? 0} />
-        <Stat label="Shops" v={stats?.shops ?? 0} />
-        <Stat label="Bookings" v={stats?.bookings ?? 0} />
-        <Stat label="MRR" v={`$${(stats?.mrr ?? 0).toFixed(0)}`} highlight />
+        <Stat label="Owners" v={stats.owners} />
+        <Stat label="Customers" v={stats.customers} />
+        <Stat label="Barbers" v={stats.barbers} />
+        <Stat label="Shops" v={stats.shops} />
+        <Stat label="Bookings" v={stats.bookings} />
+        <Stat label="MRR" v={`$${(stats.mrr || 0).toFixed(0)}`} highlight />
       </div>
 
       <div className="card">

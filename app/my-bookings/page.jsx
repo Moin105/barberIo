@@ -1,13 +1,12 @@
-import Link from "next/link";
-import { apiJson, getMe } from "@/lib/api";
 import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
+import { myBookings } from "@/lib/services/bookings";
 import MyBookingsList from "@/components/MyBookingsList";
 
 export default async function MyBookings() {
-  const me = await getMe();
+  const me = await getCurrentUser();
   if (!me) redirect("/login");
   if (me.role !== "customer") redirect("/");
-
-  const data = await apiJson("/bookings/mine");
-  return <MyBookingsList bookings={data?.bookings || []} />;
+  const bookings = await myBookings(me.id);
+  return <MyBookingsList bookings={bookings} />;
 }

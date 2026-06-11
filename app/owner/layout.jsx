@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getMe } from "@/lib/api";
+import { getCurrentUser } from "@/lib/auth";
 
 export default async function OwnerLayout({ children }) {
-  const user = await getMe();
+  const user = await getCurrentUser();
   if (!user) redirect("/owner/login");
   if (user.role !== "owner") redirect("/");
 

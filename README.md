@@ -7,118 +7,104 @@ A four-sided platform for barber businesses:
 - **Barber app** — each barber logs in to see today's schedule with customer names, services and their seat number.
 - **Customer app** — browse shops, see barbers with ratings, book a slot, rate the visit.
 
-## Stack (all free tiers)
+## Stack — one app, free everywhere
 
 | Layer | Tech | Hosting |
 |---|---|---|
-| Frontend | Next.js 14 (App Router) + Tailwind | Vercel |
-| Backend | Node.js + Express | Render |
-| Database | Postgres | Neon |
+| UI + Backend | **Next.js 14 (App Router)** | **Vercel** (Hobby tier — free) |
+| Database | **Postgres** | **Neon** (Free tier — 500 MB) |
 | Auth | bcrypt + JWT in httpOnly cookies | — |
 
-The Next.js app proxies `/api/*` to Express so cookies stay same-origin in the browser. No CORS pain.
+Everything lives inside the Next.js app. API endpoints are Next.js Route Handlers, so there's **no separate server**, no CORS, and a single Vercel deploy hosts the whole thing.
 
 ## Project layout
 
 ```
 barber/
-├── app/                 Next.js pages (App Router)
-│   ├── page.jsx         Landing page
-│   ├── admin/           Super admin (subscriptions, businesses, activity)
-│   ├── owner/           Owner dashboard (shops, services, daily totals)
-│   ├── barber/          Barber dashboard (today's schedule + seat info)
-│   ├── shops/           Customer shop browse
-│   ├── barbers/[id]/    Customer booking page
-│   └── my-bookings/     Customer booking history + ratings
-├── components/          Client components
-├── lib/api.js           Server-side fetch helper (cookie forwarding)
-├── server/              Express API
-│   ├── schema.sql       Postgres schema (users, businesses, shops, barbers,
-│   │                    services, bookings, ratings, subscriptions)
-│   └── src/
-│       ├── bootstrap.js Creates super admin from env vars on first boot
-│       └── routes/
-│           ├── auth.js  signup/login/logout/me
-│           ├── owner.js shops, barbers (creates user accounts), services, reports
-│           ├── public.js shop/barber browse + availability slots
-│           ├── bookings.js customer book/cancel/rate
-│           ├── barber.js barber's own schedule + stats
-│           └── admin.js super admin: stats, businesses, subscriptions
-└── package.json         Next.js deps only
+├── app/                       Next.js App Router
+│   ├── page.jsx               Themed landing page
+│   ├── api/                   Server-side route handlers (the "backend")
+│   │   ├── auth/              signup, login, logout, me
+│   │   ├── owner/             shops, barbers, services, daily report
+│   │   ├── admin/             stats, businesses, subscriptions, activity
+│   │   ├── barber/            schedule, stats, mark booking done
+│   │   ├── public/            shop & barber browse, availability slots
+│   │   └── bookings/          customer book, cancel, rate
+│   ├── admin/                 Super admin dashboard pages
+│   ├── owner/                 Owner dashboard pages
+│   ├── barber/                Barber dashboard pages
+│   ├── shops/                 Customer shop browse
+│   ├── barbers/[id]/          Customer barber detail + booking
+│   └── my-bookings/           Customer booking history + ratings
+├── components/                Client components
+├── lib/
+│   ├── db.js                  Postgres pool + first-boot migrations + super-admin bootstrap
+│   ├── auth.js                bcrypt + JWT + cookie helpers (server-side)
+│   ├── route.js               withAuth() / json() / err() wrappers for route handlers
+│   ├── schema.sql             Database schema (idempotent — runs on every cold start)
+│   └── services/              All business logic (called by route handlers AND server components)
+│       ├── auth.js
+│       ├── owner.js
+│       ├── admin.js
+│       ├── barber.js
+│       ├── public.js
+│       └── bookings.js
+└── package.json
 ```
+
+Server components import services directly (no HTTP hop). Client components fetch from `/api/*` over same-origin.
 
 ## Local setup
 
 ### 1) Get a free Postgres on Neon
 1. Sign up at https://neon.tech (free tier — no card).
-2. Create a project, copy the **pooled connection string**.
+2. Create a project. Copy the **pooled connection string** (host ends with `-pooler`).
 
-### 2) Run the backend
-
-```bash
-cd server
-cp .env.example .env
-# Edit .env:
-#   DATABASE_URL=<your neon url>
-#   JWT_SECRET=<openssl rand -hex 32>
-#   SUPER_ADMIN_EMAIL=you@example.com
-#   SUPER_ADMIN_PASSWORD=<a strong password>
-npm install
-npm run dev                # http://localhost:4000
-```
-
-The first boot creates a super admin user from your env vars and seeds the schema.
-
-### 3) Run the frontend
+### 2) Run the app
 
 ```bash
 cp .env.example .env.local
+# Edit .env.local:
+#   DATABASE_URL=<your neon pooled url>
+#   JWT_SECRET=<openssl rand -hex 32>
+#   SUPER_ADMIN_EMAIL=you@example.com
+#   SUPER_ADMIN_PASSWORD=<strong password>
+
 npm install
-npm run dev                # http://localhost:3000
+npm run dev                   # http://localhost:3000
 ```
 
-Open http://localhost:3000.
+On first request the app auto-creates the schema and your super-admin account. That's it — no separate backend to run.
 
-## Try every role
+## Deploy to Vercel (free, ~3 min)
 
-1. **Super admin** → sign in at `/admin/login` with the email/password you put in `server/.env`. Land on the platform overview (owners, customers, barbers, MRR). Visit `/admin/businesses` to change any owner's plan (`free` / `starter` / `pro` / `enterprise`) or status.
+1. https://vercel.com → New Project → import `Moin105/barberIo`.
+2. Framework Preset: **Next.js** (auto-detected).
+3. Root Directory: leave as `./`.
+4. **Environment Variables** — add:
 
-2. **Owner** → click "Open your shop on Clipper" on the landing page → create an account. Auto-lands on `/owner` with a free subscription. Add a shop → add services → add barbers (give each one an email + initial password so they can log in). Assign each barber a seat.
+   | Key | Value |
+   |---|---|
+   | `DATABASE_URL` | Neon pooled URL |
+   | `JWT_SECRET` | long random string |
+   | `SUPER_ADMIN_EMAIL` | your email |
+   | `SUPER_ADMIN_PASSWORD` | strong password |
+   | `SUPER_ADMIN_NAME` | (optional) your name |
 
-3. **Barber** → open a private window → `/barber/login` → sign in with the email/password the owner set. Land on `/barber` with today's schedule, seat number, and customer names. Mark bookings done as the day goes.
+5. **Deploy**.
 
-4. **Customer** → open another private window → `/signup` → browse shops → pick a barber → book a slot. Visit completes → leave a rating from `/my-bookings`.
+That's it. No second service. No Render. Free forever for hobby use.
 
-## Deploying free
+## Try every role after deploy
 
-### Database — Neon (free forever)
-Same `DATABASE_URL` you used locally works in production.
-
-### Backend — Render (free web service)
-1. Push the repo to GitHub.
-2. https://render.com → New → Web Service → connect repo.
-3. **Root directory:** `server`
-4. **Build:** `npm install`
-5. **Start:** `npm start`
-6. Environment variables:
-   - `DATABASE_URL` — your Neon string
-   - `JWT_SECRET` — long random string
-   - `CLIENT_ORIGIN` — your Vercel URL (e.g. `https://clipper.vercel.app`)
-   - `SUPER_ADMIN_EMAIL`, `SUPER_ADMIN_PASSWORD`, `SUPER_ADMIN_NAME`
-   - `NODE_ENV=production`
-
-Render's free tier sleeps after 15 min idle; the first request wakes it in a few seconds.
-
-### Frontend — Vercel (free)
-1. https://vercel.com → New Project → import the repo.
-2. **Root directory:** the repo root.
-3. Environment variable:
-   - `API_URL` — your Render URL (e.g. `https://clipper-api.onrender.com`)
-4. Deploy.
+1. **Super admin** → `/admin/login` with the email/password you put in env vars. See platform stats and manage every business's subscription.
+2. **Owner** → click "Open your shop" on the landing → create account → add shop → add services → add barbers (assign each one an email + initial password so they can log in) → assign each barber a seat.
+3. **Barber** → open a private window → `/barber/login` → use the email/password the owner set. See today's schedule with customer names + your seat.
+4. **Customer** → another window → `/signup` → browse shops → pick a barber → book → after the appointment, rate it from `/my-bookings`.
 
 ## Subscription plans
 
-Default prices (defined in `server/src/routes/admin.js`):
+Defined in [lib/services/admin.js](lib/services/admin.js):
 
 | Plan | $/mo |
 |---|---|
@@ -127,14 +113,13 @@ Default prices (defined in `server/src/routes/admin.js`):
 | pro | 49 |
 | enterprise | 199 |
 
-Super admin can change a business's plan or status (`active` / `past_due` / `cancelled`) from `/admin/businesses`.
+Super admin can change a business's plan or status from `/admin/businesses`.
 
 ## Cost summary
 
-| Service | Cost | Notes |
-|---|---|---|
-| Vercel (frontend) | $0 | Hobby tier |
-| Render (backend) | $0 | Spins down after 15 min idle |
-| Neon (Postgres) | $0 | 500 MB storage |
+| Service | Cost |
+|---|---|
+| Vercel (everything) | $0 |
+| Neon (Postgres) | $0 |
 
-Free for any hobby project. If you outgrow the free tiers, each service has a $5–$10/mo paid tier.
+Free for any hobby project. If you outgrow the free tiers, both have $5–$10/mo paid tiers.

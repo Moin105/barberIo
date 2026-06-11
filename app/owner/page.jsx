@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { apiJson } from "@/lib/api";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
+import {
+  getOwnerMe,
+  listShops,
+  listServices,
+  dailyReport,
+} from "@/lib/services/owner";
 
 const PLAN_LABEL = {
   free: { name: "Free", desc: "1 shop, up to 2 barbers", color: "bg-ink-50 text-ink-700" },
@@ -13,21 +20,20 @@ const PLAN_LABEL = {
 };
 
 export default async function OwnerDashboard() {
-  const me = await apiJson("/owner/me");
-  const shopsData = await apiJson("/owner/shops");
-  const services = await apiJson("/owner/services");
-  const shops = shopsData?.shops || [];
-  const today = new Date().toISOString().slice(0, 10);
+  const user = await getCurrentUser();
+  if (!user || user.role !== "owner") redirect("/owner/login");
 
+  const me = await getOwnerMe(user.id);
+  const shops = await listShops(user.id);
+  const services = await listServices(user.id);
+  const today = new Date().toISOString().slice(0, 10);
   const reports = await Promise.all(
-    shops.map((s) => apiJson(`/owner/shops/${s.id}/report?day=${today}`))
+    shops.map((s) => dailyReport(s.id, user.id, today))
   );
 
   const grandCompleted = reports.reduce((a, r) => a + (r?.totals?.completed || 0), 0);
   const grandPending = reports.reduce((a, r) => a + (r?.totals?.pending || 0), 0);
-
-  const sub = me?.subscription;
-  const planInfo = PLAN_LABEL[sub?.plan || "free"];
+  const planInfo = PLAN_LABEL[me?.subscription?.plan || "free"];
 
   return (
     <div className="grid gap-6">
@@ -45,13 +51,13 @@ export default async function OwnerDashboard() {
             <p className="text-xl font-extrabold">
               {planInfo.name}{" "}
               <span className="text-sm font-medium opacity-80">
-                {sub?.status === "active" ? "" : `· ${sub?.status || "—"}`}
+                {me?.subscription?.status === "active" ? "" : `· ${me?.subscription?.status || "—"}`}
               </span>
             </p>
             <p className="text-xs opacity-80">{planInfo.desc}</p>
-            {sub?.current_period_end && sub.plan !== "free" && (
+            {me?.subscription?.current_period_end && me.subscription.plan !== "free" && (
               <p className="mt-1 text-[10px] uppercase tracking-widest opacity-70">
-                renews {new Date(sub.current_period_end).toLocaleDateString()}
+                renews {new Date(me.subscription.current_period_end).toLocaleDateString()}
               </p>
             )}
           </div>
@@ -60,7 +66,7 @@ export default async function OwnerDashboard() {
 
       <div className="grid gap-3 sm:grid-cols-4">
         <Stat label="Shops" v={shops.length} sub="locations" />
-        <Stat label="Services" v={services?.services?.length || 0} sub="on your menu" />
+        <Stat label="Services" v={services.length} sub="on your menu" />
         <Stat
           label={`Earned · today`}
           v={`$${grandCompleted.toFixed(0)}`}
