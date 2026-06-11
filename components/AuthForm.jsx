@@ -1,11 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Icon from "@/components/Icon";
+
+const ROLE_HOME = {
+  owner: "/owner",
+  super_admin: "/admin",
+  barber: "/barber",
+  customer: "/shops",
+};
+
+function safeNext(raw) {
+  // Only allow same-origin relative paths to prevent open-redirects.
+  if (!raw || typeof raw !== "string") return null;
+  if (!raw.startsWith("/")) return null;
+  if (raw.startsWith("//")) return null;
+  return raw;
+}
 
 export default function AuthForm({ mode, role, title, subtitle, redirectTo }) {
   const router = useRouter();
+  const search = useSearchParams();
+  const nextParam = safeNext(search?.get("next"));
+
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);
 
@@ -29,15 +47,9 @@ export default function AuthForm({ mode, role, title, subtitle, redirectTo }) {
         setBusy(false);
         return;
       }
-      const target =
-        redirectTo ||
-        (data.user?.role === "owner"
-          ? "/owner"
-          : data.user?.role === "super_admin"
-          ? "/admin"
-          : data.user?.role === "barber"
-          ? "/barber"
-          : "/shops");
+      const home = ROLE_HOME[data.user?.role] || "/shops";
+      // ?next= wins over redirectTo wins over role-home.
+      const target = nextParam || redirectTo || home;
       router.push(target);
       router.refresh();
     } catch {
@@ -53,6 +65,12 @@ export default function AuthForm({ mode, role, title, subtitle, redirectTo }) {
         <div className="pl-3">
           <h1 className="display text-3xl text-ink-900">{title}</h1>
           {subtitle && <p className="mt-1 text-sm text-ink-400">{subtitle}</p>}
+          {nextParam && (
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-brand-100 bg-brand-50 px-2.5 py-1 text-[11px] text-brand-700">
+              <Icon name="lock" className="h-3 w-3" />
+              You'll return to your booking after signing in.
+            </p>
+          )}
           <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-4">
             {mode === "signup" && (
               <Field label="Full name">
