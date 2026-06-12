@@ -183,6 +183,10 @@ body::before {
   mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
 
+/* Hide horizontal-scroll bars on draggable carousels without breaking scroll. */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* Stacking: canvas particles (z-0) → damask pattern (z-1) → chrome (z-10) */
 header, main, footer { position: relative; z-index: 10; }
 

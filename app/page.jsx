@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Icon from "@/components/Icon";
+import BusinessesCarousel from "@/components/BusinessesCarousel";
 import { listActivePromotions } from "@/lib/services/promotions";
+import { listOnboardedBusinesses } from "@/lib/services/public";
 
 export const dynamic = "force-dynamic";
 
@@ -8,11 +10,15 @@ const THREE_COL = "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
 const FOUR_COL = "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/4)]";
 
 export default async function Home() {
-  const deals = await listActivePromotions(6);
+  const [deals, businesses] = await Promise.all([
+    listActivePromotions(6),
+    listOnboardedBusinesses(14),
+  ]);
   return (
     <div className="flex w-full flex-col gap-24">
       <Hero />
       <SocialProof />
+      <BusinessesCarousel items={businesses} />
       <Deals deals={deals} />
       <Features />
       <RoleGrid />
