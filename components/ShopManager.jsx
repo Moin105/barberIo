@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Icon from "@/components/Icon";
+import ReviewQRButton from "@/components/ReviewQRButton";
 
 export default function ShopManager({ shop, barbers, services, report, bookings, day }) {
   const router = useRouter();
@@ -720,6 +721,23 @@ function BookingsTab({ bookings, day, onChanged }) {
               >
                 Cancel
               </button>
+            </div>
+          )}
+          {b.status === "completed" && (
+            <div className="flex gap-1">
+              <ReviewQRButton
+                token={b.review_token}
+                customerName={b.customer_name}
+                barberName={b.barber_name}
+              />
+              {b.invoice_id && (
+                <Link
+                  href={`/owner/invoices/${b.invoice_id}`}
+                  className="btn-ghost inline-flex items-center gap-1 text-xs"
+                >
+                  <Icon name="wallet" className="h-3.5 w-3.5" /> Invoice
+                </Link>
+              )}
             </div>
           )}
         </div>

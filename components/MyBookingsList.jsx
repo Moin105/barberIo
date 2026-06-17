@@ -8,7 +8,6 @@ import Icon from "@/components/Icon";
 export default function MyBookingsList({ bookings }) {
   const router = useRouter();
   const [busy, setBusy] = useState(null);
-  const [rating, setRating] = useState({});
 
   // Keep the list live: refresh whenever the tab regains focus and every 30s
   // while it's open, so a booking marked done by the shop appears without a
@@ -36,26 +35,13 @@ export default function MyBookingsList({ bookings }) {
     if (res.ok) router.refresh();
   }
 
-  async function submitRating(bookingId) {
-    const r = rating[bookingId];
-    if (!r?.stars) return;
-    setBusy(bookingId);
-    const res = await fetch(`/api/bookings/${bookingId}/rate`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ stars: r.stars, comment: r.comment || "" }),
-    });
-    setBusy(null);
-    if (res.ok) router.refresh();
-  }
-
   return (
     <div className="flex flex-col gap-6">
       <div>
         <span className="eyebrow">My account</span>
         <h1 className="display mt-2 text-3xl text-ink-900">My bookings</h1>
         <p className="text-sm text-ink-400">
-          Past and upcoming appointments. Leave a rating after a visit.
+          Past and upcoming appointments. Scan the QR at the shop after a visit to rate it.
         </p>
       </div>
 
@@ -135,58 +121,28 @@ export default function MyBookingsList({ bookings }) {
                   )}
                 </div>
 
-                {b.status === "completed" && !b.rating_id && (
-                  <div className="rounded-md border border-ink-100 bg-paper-100/60 p-3">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-ink-400">
-                      Rate this visit
-                    </p>
-                    <div className="mt-2 flex gap-1">
-                      {[1, 2, 3, 4, 5].map((n) => (
-                        <button
-                          key={n}
-                          type="button"
-                          onClick={() =>
-                            setRating((p) => ({
-                              ...p,
-                              [b.id]: { ...(p[b.id] || {}), stars: n },
-                            }))
-                          }
-                          className="text-brass-500 transition hover:scale-110"
-                          aria-label={`${n} stars`}
-                        >
-                          <Icon
-                            name="star"
-                            className="h-7 w-7"
-                            filled={(rating[b.id]?.stars || 0) >= n}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                    <textarea
-                      placeholder="Leave a comment (optional)"
-                      className="input mt-2 h-20"
-                      value={rating[b.id]?.comment || ""}
-                      onChange={(e) =>
-                        setRating((p) => ({
-                          ...p,
-                          [b.id]: { ...(p[b.id] || {}), comment: e.target.value },
-                        }))
-                      }
-                    />
-                    <button
-                      disabled={busy === b.id || !rating[b.id]?.stars}
-                      onClick={() => submitRating(b.id)}
-                      className="btn-primary mt-2 text-xs"
-                    >
-                      {busy === b.id ? "Submitting…" : "Submit rating"}
-                    </button>
+                {b.status === "completed" && (
+                  <div className="flex flex-wrap items-center gap-3">
+                    {!b.rating_id && !b.review_consumed_at && (
+                      <p className="inline-flex items-center gap-2 rounded-md border border-amber-100 bg-amber-50 px-3 py-1.5 text-xs text-amber-800">
+                        <Icon name="star" className="h-3.5 w-3.5" filled />
+                        Scan the QR at the shop to leave a review (expires 24h after the visit).
+                      </p>
+                    )}
+                    {b.rating_id && (
+                      <span className="inline-flex items-center gap-1.5 text-xs text-emerald-700">
+                        <Icon name="check" className="h-3.5 w-3.5" /> You rated this visit.
+                      </span>
+                    )}
+                    {b.invoice_id && (
+                      <Link
+                        href={`/invoices/${b.id}`}
+                        className="btn-ghost inline-flex items-center gap-1 text-xs"
+                      >
+                        <Icon name="wallet" className="h-3.5 w-3.5" /> View invoice
+                      </Link>
+                    )}
                   </div>
-                )}
-
-                {b.rating_id && (
-                  <p className="inline-flex items-center gap-1.5 text-xs text-emerald-700">
-                    <Icon name="check" className="h-3.5 w-3.5" /> You rated this visit.
-                  </p>
                 )}
               </div>
             );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Icon from "@/components/Icon";
+import ReviewQRButton from "@/components/ReviewQRButton";
 
 export default function BarberDashboard({ day, barber, bookings, summary, stats }) {
   const router = useRouter();
@@ -189,7 +190,16 @@ export default function BarberDashboard({ day, barber, bookings, summary, stats 
                       </button>
                     </>
                   )}
-                  {b.status === "completed" && <span className="pill-green">done</span>}
+                  {b.status === "completed" && (
+                    <>
+                      <span className="pill-green">done</span>
+                      <ReviewQRButton
+                        token={b.review_token}
+                        customerName={b.customer_name}
+                        barberName={barber.name}
+                      />
+                    </>
+                  )}
                   {b.status === "cancelled" && <span className="pill-slate">cancelled</span>}
                 </div>
               </div>
